@@ -1,0 +1,7 @@
+Bootstrap: docker-daemon
+From: cxx:latest
+
+%post -c /bin/bash
+  CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
+  cat >${CUSTOM_ENV} <<EOF
+#!/bin/bash

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+here="$(realpath $(dirname ${BASH_SOURCE:-$0}))"
+
+singularity run --cwd "${PWD}" \
+  --bind "${PWD}":"${PWD}" \
+  "${here}/cxx.sif" \
+  "$@"
