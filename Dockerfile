@@ -208,3 +208,4 @@ RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
 FROM ubuntu:24.04 as final
 
 COPY --from=builder /usr /usr
+COPY --from=builder /etc/alternatives /etc/alternatives
