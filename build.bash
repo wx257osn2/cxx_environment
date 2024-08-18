@@ -1,6 +1,5 @@
 #!/bin/bash -i
 
-set -euo pipefail
 
 here="$(realpath $(dirname ${BASH_SOURCE:-$0}))"
 
@@ -13,7 +12,12 @@ generate_def() {
 
 unset XDG_RUNTIME_DIR
 
-if groups | grep docker > /dev/null && which docker > /dev/null && which proot || [[ $EUID = 0 ]] ; then
+groups | grep docker > /dev/null && which proot > /dev/null
+docker_user=$?
+
+set -euo pipefail
+
+if which docker > /dev/null && [[ $docker_user = 0 ]] || [[ $EUID = 0 ]] ; then
   # docker is available, so let use docker to cache build steps
   mkdir -p ${here}/empty
   DOCKER_BUILDKIT=1 docker build -t cxx:latest -f ${here}/Dockerfile ${here}/empty
