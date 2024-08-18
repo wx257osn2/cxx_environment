@@ -6,7 +6,7 @@ here="$(realpath $(dirname ${BASH_SOURCE:-$0}))"
 
 generate_def() {
   cat ${here}/${1}.in > ${here}/${1}
-  echo "PS1=\"${PS1}\"" >> ${here}/${1}
+  echo "PS1=\"Singularity ${PS1}\"" >> ${here}/${1}
   echo 'EOF' >> ${here}/${1}
   echo '  chmod +x $CUSTOM_ENV' >> ${here}/${1}
 }
