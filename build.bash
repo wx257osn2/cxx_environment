@@ -6,7 +6,7 @@ here="$(realpath $(dirname ${BASH_SOURCE:-$0}))"
 
 generate_def() {
   cat ${here}/${1}.def.in > ${here}/.generated.def
-  echo "PS1=\"Singularity ${PS1}\"" >> ${here}/.generated.def
+  echo "PS1=\"\e[36m(cxx singularity)\e[0m ${PS1}\"" >> ${here}/.generated.def
   echo 'EOF' >> ${here}/.generated.def
   echo '  chmod +x $CUSTOM_ENV' >> ${here}/.generated.def
 }
