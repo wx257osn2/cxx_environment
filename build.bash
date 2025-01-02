@@ -19,9 +19,9 @@ set -euo pipefail
 
 if which docker > /dev/null && [[ $docker_user = 0 ]] || [[ $EUID = 0 ]] ; then
   # docker is available, so let use docker to cache build steps
-  mkdir -p ${here}/empty
-  DOCKER_BUILDKIT=1 docker build -t cxx:latest -f ${here}/Dockerfile ${here}/empty
-  rmdir ${here}/empty
+  mkdir -p ${here}/docker_build
+  DOCKER_BUILDKIT=1 docker build -t cxx:latest -f ${here}/Dockerfile ${here}/docker_build
+  rmdir ${here}/docker_build
   generate_def with_docker
   singularity build ${here}/cxx.sif ${here}/.generated.def
 else
