@@ -1,5 +1,6 @@
 #!/bin/bash -i
 
+set +o history
 
 here="$(realpath $(dirname ${BASH_SOURCE:-$0}))"
 
