@@ -3,6 +3,8 @@ From: ubuntu:24.04
 
 %post -c /bin/bash
 
+  set -euo pipefail
+
   BOOST_VERSION=1.87.0
 
   /installer/ubuntu2404_prelude.bash
