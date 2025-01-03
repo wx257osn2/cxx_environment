@@ -6,17 +6,20 @@ From: ubuntu:24.04
   set -euo pipefail
 
   BOOST_VERSION=1.87.0
+  CMAKE_VERSION=3.31.3
 
   /installer/ubuntu2404_prelude.bash
   /installer/ubuntu2404_gcc14.bash
   apt-get install -y --no-install-recommends make
   /installer/ubuntu2404_clang19.bash
+  /installer/cmake.bash ${CMAKE_VERSION}
   /installer/boost.bash ${BOOST_VERSION}
   /installer/ubuntu2404_postlude.bash
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
   cat >${CUSTOM_ENV} <<EOF
 #!/bin/bash
+export PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost-${BOOST_VERSION}/include
 export LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib
