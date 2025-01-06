@@ -30,7 +30,7 @@ if which docker > /dev/null && [[ $docker_user = 0 ]] || [[ $EUID = 0 ]] ; then
   # docker is available, so let use docker to cache build steps
   mkdir -p ${here}/docker_build
   cp -r ${here}/installer ${here}/docker_build
-  docker buildx build -t cxx:latest -f ${here}/Dockerfile ${here}/docker_build
+  docker buildx build -t cxx:latest -f ${here}/Dockerfile ${DOCKER_BUILD_EXTRA_OPTIONS} ${here}/docker_build
   rm -r ${here}/docker_build/installer
   rmdir ${here}/docker_build
   generate_def with_docker
