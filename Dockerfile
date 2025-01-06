@@ -31,6 +31,11 @@ RUN --mount=type=bind,src=installer,target=/installer \
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/cmake.bash ${CMAKE_VERSION}
 
+RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=bind,src=installer,target=/installer \
+    /installer/ubuntu2404_postlude.bash
+
 FROM ubuntu:24.04 AS final
 
 COPY --from=builder /usr /usr
