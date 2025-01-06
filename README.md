@@ -7,7 +7,7 @@ modern C++ environment using singularity
 ### Prerequisites
 
 - required
-    - [`singularity`](https://github.com/sylabs/singularity) on `$PATH`
+    - [`singularity`](https://github.com/sylabs/singularity) or [`apptainer`](https://github.com/apptainer/apptainer) on `$PATH`
 - optional
     - [`docker`](https://docs.docker.com/reference/cli/docker/) on `$PATH` , and
         - you can `sudo` , or

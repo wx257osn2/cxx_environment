@@ -2,7 +2,15 @@
 
 here="$(realpath $(dirname ${BASH_SOURCE:-$0}))"
 
-singularity run --cwd "${PWD}" \
+if [ ! "${SINGULARITY:+true}" ]; then
+  if [ `which singularity` ]; then
+    SINGULARITY=singularity
+  elif [ `which apptainer` ]; then
+    SINGULARITY=apptainer
+  fi
+fi
+
+${SINGULARITY} run --cwd "${PWD}" \
   --bind "${PWD}":"${PWD}" \
   "${here}/cxx.sif" \
   "$@"
