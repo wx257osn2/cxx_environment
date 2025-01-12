@@ -14,8 +14,8 @@ echo "deb-src [signed-by=/usr/local/share/keyrings/llvm-snapshot-archive-keyring
 apt-get update
 
 apt-get install -y --no-install-recommends llvm-${LLVM_VERSION}-dev clang-${LLVM_VERSION} clang-tools-${LLVM_VERSION} \
-                                           libclang-${LLVM_VERSION}-dev clangd-${LLVM_VERSION} clang-tidy-${LLVM_VERSION} \
-                                           libclang-rt-${LLVM_VERSION}-dev  libpolly-${LLVM_VERSION}-dev \
+                                           libclang-${LLVM_VERSION}-dev clang-format-${LLVM_VERSION} clangd-${LLVM_VERSION} \
+                                           clang-tidy-${LLVM_VERSION} libclang-rt-${LLVM_VERSION}-dev libpolly-${LLVM_VERSION}-dev \
                                            libfuzzer-${LLVM_VERSION}-dev lldb-${LLVM_VERSION} lld-${LLVM_VERSION} \
                                            libc++-${LLVM_VERSION}-dev libc++abi-${LLVM_VERSION}-dev libomp-${LLVM_VERSION}-dev \
                                            libunwind-${LLVM_VERSION}-dev libmlir-${LLVM_VERSION}-dev mlir-${LLVM_VERSION}-tools \
@@ -36,6 +36,7 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/clang-cpp clang-cpp /usr/bin/clang-cpp-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-doc clang-doc /usr/bin/clang-doc-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-extdef-mapping clang-extdef-mapping /usr/bin/clang-extdef-mapping-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/clang-format clang-format /usr/bin/clang-format-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-include-cleaner clang-include-cleaner /usr/bin/clang-include-cleaner-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-include-fixer clang-include-fixer /usr/bin/clang-include-fixer-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-linker-wrapper clang-linker-wrapper /usr/bin/clang-linker-wrapper-${LLVM_VERSION} \
