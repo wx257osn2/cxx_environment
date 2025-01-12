@@ -4,7 +4,21 @@ modern C++ environment using singularity
 
 ## Usage
 
-### Prerequisites
+### Use on Github Actions
+
+You can use `cxx-env-run` after `uses: wx257osn2/cxx_environment@v1` .
+
+```yaml
+runs:
+  - uses: wx257osn2/cxx_environment@v1
+    with:
+      version: v20250106    # specify image version
+  - run: cxx-env-run g++ --version
+```
+
+### Use on Local Environment
+
+#### Prerequisites
 
 - required
     - [`singularity`](https://github.com/sylabs/singularity) or [`apptainer`](https://github.com/apptainer/apptainer) on `$PATH`
@@ -13,7 +27,7 @@ modern C++ environment using singularity
         - you can `sudo` , or
         - [`proot`](https://proot-me.github.io/) exists on `$PATH`
 
-### Build
+#### Build
 
 ```console
 $ ./build.bash
@@ -25,7 +39,7 @@ or,
 # ./build.bash
 ```
 
-### Exec some commands on the image
+#### Exec some commands on the image
 
 ```console
 $ ./run clang++ --version
@@ -35,7 +49,7 @@ Thread model: posix
 InstalledDir: /usr/lib/llvm-19/bin
 ```
 
-### Shell
+#### Shell
 
 ```console
 $ ./bash

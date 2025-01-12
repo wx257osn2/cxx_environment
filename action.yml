@@ -1,0 +1,33 @@
+name: 'Setup Modern C++ Development Environment'
+description: 'Setup Modern C++ Development Environment based on Singularity'
+author: 'I (@wx257osn2)'
+inputs:
+  version:
+    description: 'select an image release'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        repository: 'wx257osn2/cxx_environment'
+        path: 'cxx_environment'
+    - uses: actions/cache@v4
+      with:
+        path: ${GITHUB_WORKSPACE}/cxx_environment/cxx.sif
+        key: sif-${{ inputs.version }}
+    - shell: bash
+      run: |
+        mv ${GITHUB_WORKSPACE}/cxx_environment/{run,cxx-env-run}
+        rm ${GITHUB_WORKSPACE}/cxx_environment/bash
+        if [ ! -f ${GITHUB_WORKSPACE}/cxx_environment/cxx.sif ]; then
+          curl -sSL -o ${GITHUB_WORKSPACE}/cxx_environment/cxx.sif https://github.com/wx257osn2/cxx_environment/releases/download/${{ inputs.version }}/cxx.sif
+        fi
+    - uses: eWaterCycle/setup-apptainer@v2
+      with:
+        apptainer-version: 1.3.6
+    - shell: bash
+      run: |
+        echo "PATH=${PATH}:${GITHUB_WORKSPACE}/cxx_environment" >> $GITHUB_ENV
+        echo "SINGULARITY=apptainer" >> $GITHUB_ENV
