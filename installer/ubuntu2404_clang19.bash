@@ -70,7 +70,6 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/lldb-argdumper lldb-argdumper /usr/bin/lldb-argdumper-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lldb-instr lldb-instr /usr/bin/lldb-instr-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lldb-server lldb-server /usr/bin/lldb-server-${LLVM_VERSION} \
-                    --slave   /usr/local/bin/lldb-vscode lldb-vscode /usr/bin/lldb-vscode-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lli lli /usr/bin/lli-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lli-child-target lli-child-target /usr/bin/lli-child-target-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-PerfectShuffle llvm-PerfectShuffle /usr/bin/llvm-PerfectShuffle-${LLVM_VERSION} \
@@ -133,7 +132,6 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/llvm-readelf llvm-readelf /usr/bin/llvm-readelf-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-readobj llvm-readobj /usr/bin/llvm-readobj-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-reduce llvm-reduce /usr/bin/llvm-reduce-${LLVM_VERSION} \
-                    --slave   /usr/local/bin/llvm-remark-size-diff llvm-remark-size-diff /usr/bin/llvm-remark-size-diff-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-remarkutil llvm-remarkutil /usr/bin/llvm-remarkutil-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-rtdyld llvm-rtdyld /usr/bin/llvm-rtdyld-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-sim llvm-sim /usr/bin/llvm-sim-${LLVM_VERSION} \
@@ -143,7 +141,6 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/llvm-strings llvm-strings /usr/bin/llvm-strings-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-strip llvm-strip /usr/bin/llvm-strip-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-symbolizer llvm-symbolizer /usr/bin/llvm-symbolizer-${LLVM_VERSION} \
-                    --slave   /usr/local/bin/llvm-tapi-diff llvm-tapi-diff /usr/bin/llvm-tapi-diff-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-tblgen llvm-tblgen /usr/bin/llvm-tblgen-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-tli-checker llvm-tli-checker /usr/bin/llvm-tli-checker-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-undname llvm-undname /usr/bin/llvm-undname-${LLVM_VERSION} \
