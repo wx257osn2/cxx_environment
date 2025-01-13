@@ -25,6 +25,16 @@ RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
     /installer/ubuntu2404_clang19.bash
 
+RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=bind,src=installer,target=/installer \
+    /installer/ubuntu2404_clang-format17.bash
+
+RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=bind,src=installer,target=/installer \
+    /installer/ubuntu2404_clang-format18.bash
+
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/boost.bash ${BOOST_VERSION}
 

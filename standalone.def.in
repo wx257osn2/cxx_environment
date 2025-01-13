@@ -12,6 +12,8 @@ From: ubuntu:24.04
   /installer/ubuntu2404_gcc14.bash
   apt-get install -y --no-install-recommends make
   /installer/ubuntu2404_clang19.bash
+  /installer/ubuntu2404_clang-format17.bash
+  /installer/ubuntu2404_clang-format18.bash
   /installer/cmake.bash ${CMAKE_VERSION}
   /installer/boost.bash ${BOOST_VERSION}
   /installer/ubuntu2404_postlude.bash
