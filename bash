@@ -12,4 +12,4 @@ fi
 
 ${SINGULARITY} shell --cwd "${PWD}" \
   --bind "${PWD}":"${PWD}" \
-  "${here}/cxx.sif"
+  "${here}/cxx-$(uname -m).sif"

@@ -4,6 +4,8 @@ set +o history
 
 here="$(realpath $(dirname ${BASH_SOURCE:-$0}))"
 
+image_path="${here}/cxx-$(uname -m).sif"
+
 if [ ! "${SINGULARITY:+true}" ]; then
   if [ `which singularity` ]; then
     export SINGULARITY=singularity
@@ -34,12 +36,12 @@ if which docker > /dev/null && [[ $docker_user = 0 ]] || [[ $EUID = 0 ]] ; then
   rm -r ${here}/docker_build/installer
   rmdir ${here}/docker_build
   generate_def with_docker
-  ${SINGULARITY} build ${here}/cxx.sif ${here}/.generated.def
+  ${SINGULARITY} build ${image_path} ${here}/.generated.def
 else
   # docker is unavailable, so use singularity directly
   generate_def standalone
   echo '' >> ${here}/.generated.def
   echo '%setup' >> ${here}/.generated.def
   echo "  mkdir \$SINGULARITY_ROOTFS/installer" >> ${here}/.generated.def
-  ${SINGULARITY} build --bind ${here}/installer:/installer --fakeroot ${here}/cxx.sif ${here}/.generated.def
+  ${SINGULARITY} build --bind ${here}/installer:/installer --fakeroot ${image_path} ${here}/.generated.def
 fi

@@ -12,5 +12,5 @@ fi
 
 ${SINGULARITY} run --cwd "${PWD}" \
   --bind "${PWD}":"${PWD}" \
-  "${here}/cxx.sif" \
+  "${here}/cxx-$(uname -m).sif" \
   "$@"

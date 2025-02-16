@@ -9,7 +9,10 @@ on:
 
 jobs:
   with_docker:
-    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        image: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.image }}
     steps:
     - uses: wx257osn2/setup-apptainer@v1.3.6
     - uses: actions/checkout@v4
@@ -22,7 +25,14 @@ jobs:
         sudo apt install -y --no-install-recommends proot
         DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=gha,mode=max --cache-from type=gha --load" ./build.bash
   standalone:
-    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        include:
+          - image: ubuntu-24.04
+            arch: x86_64
+          - image: ubuntu-24.04-arm
+            arch: aarch64
+    runs-on: ${{ matrix.image }}
     steps:
     - uses: wx257osn2/setup-apptainer@v1.3.6
     - uses: actions/checkout@v4
@@ -37,8 +47,8 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: steps.check-tag.outputs.deploy-needed == 'true'
       with:
-        name: sif
-        path: ./cxx.sif
+        name: sif-${{ matrix.arch }}
+        path: ./cxx-${{ matrix.arch }}.sif
   deploy:
     runs-on: ubuntu-24.04
     needs: standalone
@@ -54,8 +64,14 @@ jobs:
     - uses: actions/download-artifact@v4
       if: steps.check-tag.outputs.deploy-needed == 'true'
       with:
-        name: sif
+        name: sif-x86_64
+    - uses: actions/download-artifact@v4
+      if: steps.check-tag.outputs.deploy-needed == 'true'
+      with:
+        name: sif-aarch64
     - uses: softprops/action-gh-release@v2
       if: steps.check-tag.outputs.deploy-needed == 'true'
       with:
-        files: cxx.sif
+        files: |
+          cxx-x86_64.sif
+          cxx-aarch64.sif

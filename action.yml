@@ -9,20 +9,28 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - shell: bash
+      run: |
+        if [ ${{ runner.arch }} = "X64" ]; then
+          download_arch="x86_64"
+        elif [ ${{ runner.arch }} == "ARM64" ]; then
+          download_arch="aarch64"
+        fi
+        echo "cxx_env_arch=${download_arch}" >> $GITHUB_ENV
     - uses: actions/checkout@v4
       with:
         repository: 'wx257osn2/cxx_environment'
         path: 'cxx_environment'
     - uses: actions/cache@v4
       with:
-        path: /opt/cxx_environment/cxx.sif
-        key: sif-${{ inputs.version }}
+        path: /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif
+        key: sif-${{ inputs.version }}-${{ env.cxx_env_arch }}
     - shell: bash
       run: |
         sudo mkdir -p /opt/cxx_environment
         sudo mv ${{ github.workspace }}/cxx_environment/run /opt/cxx_environment/cxx-env-run
-        if [ ! -f /opt/cxx_environment/cxx.sif ]; then
-          sudo curl -sSL -o /opt/cxx_environment/cxx.sif https://github.com/wx257osn2/cxx_environment/releases/download/${{ inputs.version }}/cxx.sif
+        if [ ! -f /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif ]; then
+          sudo curl -sSL -o /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif https://github.com/wx257osn2/cxx_environment/releases/download/${{ inputs.version }}/cxx-${{ env.cxx_env_arch }}.sif
         fi
         rm -rf ${{ github.workspace }}/cxx_environment
     - uses: wx257osn2/setup-apptainer@v1.3.6
