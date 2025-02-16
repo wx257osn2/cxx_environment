@@ -17,10 +17,6 @@ runs:
           download_arch="aarch64"
         fi
         echo "cxx_env_arch=${download_arch}" >> $GITHUB_ENV
-    - uses: actions/checkout@v4
-      with:
-        repository: 'wx257osn2/cxx_environment'
-        path: 'cxx_environment'
     - uses: actions/cache@v4
       with:
         path: /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif
@@ -28,7 +24,7 @@ runs:
     - shell: bash
       run: |
         sudo mkdir -p /opt/cxx_environment
-        sudo mv ${{ github.workspace }}/cxx_environment/run /opt/cxx_environment/cxx-env-run
+        sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/heads/v2.0.0/run
         if [ ! -f /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif ]; then
           sudo curl -sSL -o /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif https://github.com/wx257osn2/cxx_environment/releases/download/${{ inputs.version }}/cxx-${{ env.cxx_env_arch }}.sif
         fi
