@@ -16,6 +16,9 @@ update-alternatives --install /usr/local/bin/gcc        gcc        /usr/bin/gcc-
                     --slave   /usr/local/bin/gcov-tool  gcov-tool  /usr/bin/gcov-tool-${GCC_VERSION} \
                     --slave   /usr/local/bin/lto-dump   lto-dump   /usr/bin/lto-dump-${GCC_VERSION}
 
+update-alternatives --install /usr/local/bin/cc         cc         /usr/bin/gcc-${GCC_VERSION} ${GCC_VERSION}
+update-alternatives --install /usr/local/bin/c++        c++        /usr/bin/g++-${GCC_VERSION} ${GCC_VERSION}
+
 # Fix libstdc++ of g++-14.1 for clang++-19
 # this will be able to be removed with g++-14.2
 # see. https://github.com/llvm/llvm-project/issues/92586, https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115119
