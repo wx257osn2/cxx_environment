@@ -6,13 +6,13 @@ modern C++ environment using singularity
 
 ### Use on Github Actions
 
-You can use `cxx-env-run` after `uses: wx257osn2/cxx_environment@v1` .
+You can use `cxx-env-run` after `uses: wx257osn2/cxx_environment@v2` .
 
 ```yaml
 runs:
-  - uses: wx257osn2/cxx_environment@v1
+  - uses: wx257osn2/cxx_environment@v2
     with:
-      version: v20250106    # specify image version
+      version: v20250216    # specify image version
   - run: cxx-env-run g++ --version
 ```
 
