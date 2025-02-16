@@ -15,17 +15,18 @@ runs:
         path: 'cxx_environment'
     - uses: actions/cache@v4
       with:
-        path: ${{ github.workspace }}/cxx_environment/cxx.sif
+        path: /opt/cxx_environment/cxx.sif
         key: sif-${{ inputs.version }}
     - shell: bash
       run: |
-        mv ${{ github.workspace }}/cxx_environment/{run,cxx-env-run}
-        rm ${{ github.workspace }}/cxx_environment/bash
-        if [ ! -f ${{ github.workspace }}/cxx_environment/cxx.sif ]; then
-          curl -sSL -o ${{ github.workspace }}/cxx_environment/cxx.sif https://github.com/wx257osn2/cxx_environment/releases/download/${{ inputs.version }}/cxx.sif
+        sudo mkdir -p /opt/cxx_environment
+        sudo mv ${{ github.workspace }}/cxx_environment/run /opt/cxx_environment/cxx-env-run
+        if [ ! -f /opt/cxx_environment/cxx.sif ]; then
+          sudo curl -sSL -o /opt/cxx_environment/cxx.sif https://github.com/wx257osn2/cxx_environment/releases/download/${{ inputs.version }}/cxx.sif
         fi
+        rm -rf ${{ github.workspace }}/cxx_environment
     - uses: wx257osn2/setup-apptainer@v1.3.6
     - shell: bash
       run: |
-        echo "PATH=${PATH}:${{ github.workspace }}/cxx_environment" >> $GITHUB_ENV
+        echo "PATH=${PATH}:/opt/cxx_environment" >> $GITHUB_ENV
         echo "SINGULARITY=apptainer" >> $GITHUB_ENV
