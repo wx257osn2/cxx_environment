@@ -5,6 +5,7 @@ FROM ubuntu:24.04 AS builder
 
 ARG BOOST_VERSION
 ARG CMAKE_VERSION
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
