@@ -5,8 +5,12 @@ inputs:
   version:
     description: 'select an image release'
     required: true
+  image_name_prefix:
+    description: 'image name prefix on the release; image name will be `${image_name_prefix}-${arch}.sif`'
+    required: false
+    default: 'cxx'
   url_format:
-    description: 'image URL format, `{}` is replaced with inputs.version; `/cxx-${arch}.sif` will be concatenated from the back'
+    description: 'image URL format, `{}` is replaced with inputs.version; `/${image_name_prefix}-${arch}.sif` will be concatenated from the back'
     required: false
     default: 'https://github.com/wx257osn2/cxx_environment/releases/download/{}'
 
@@ -31,7 +35,7 @@ runs:
         sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/v2.0.1/run
         sudo chmod +x /opt/cxx_environment/cxx-env-run
         if [ ! -f /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif ]; then
-          sudo curl -sSL -o /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/cxx-${{ env.cxx_env_arch }}.sif
+          sudo curl -sSL -o /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
         fi
         rm -rf ${{ github.workspace }}/cxx_environment
     - uses: wx257osn2/setup-apptainer@v1.3.6
