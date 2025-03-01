@@ -11,5 +11,6 @@ if [ ! "${SINGULARITY:+true}" ]; then
 fi
 
 ${SINGULARITY} shell --cwd "${PWD}" \
+  --writable-tmpfs \
   --bind "${PWD}":"${PWD}" \
   "${here}/cxx-$(uname -m).sif"
