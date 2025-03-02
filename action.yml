@@ -32,7 +32,7 @@ runs:
     - shell: bash
       run: |
         sudo mkdir -p /opt/cxx_environment
-        sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/v2.1.0/run
+        sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/v2.2.0/run
         sudo chmod +x /opt/cxx_environment/cxx-env-run
         if [ ! -f /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif ]; then
           sudo curl -sSL -o /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
