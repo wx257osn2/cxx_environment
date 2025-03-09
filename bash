@@ -10,7 +10,9 @@ if [ ! "${SINGULARITY:+true}" ]; then
   fi
 fi
 
+"${here}/setup_overlay.bash"
+
 ${SINGULARITY} shell --cwd "${PWD}" \
-  --writable \
+  --overlay "${here}/overlay.img" \
   --bind "${PWD}":"${PWD}" \
   "${here}/cxx-$(uname -m).sif"
