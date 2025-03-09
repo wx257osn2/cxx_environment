@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-LLVM_VERSION=19
+LLVM_VERSION=20
 UBUNTU_CODENAME=noble
 
 if [ ! -f /usr/local/share/keyrings/llvm-snapshot-archive-keyring.gpg ]; then
@@ -39,19 +39,21 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/clang-doc clang-doc /usr/bin/clang-doc-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-extdef-mapping clang-extdef-mapping /usr/bin/clang-extdef-mapping-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-format clang-format /usr/bin/clang-format-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/clang-format-diff clang-format-diff /usr/bin/clang-format-diff-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-include-cleaner clang-include-cleaner /usr/bin/clang-include-cleaner-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-include-fixer clang-include-fixer /usr/bin/clang-include-fixer-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/clang-installapi clang-installapi /usr/bin/clang-installapi-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-linker-wrapper clang-linker-wrapper /usr/bin/clang-linker-wrapper-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-move clang-move /usr/bin/clang-move-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/clang-nvlink-wrapper clang-nvlink-wrapper /usr/bin/clang-nvlink-wrapper-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-offload-bundler clang-offload-bundler /usr/bin/clang-offload-bundler-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-offload-packager clang-offload-packager /usr/bin/clang-offload-packager-${LLVM_VERSION} \
-                    --slave   /usr/local/bin/clang-pseudo clang-pseudo /usr/bin/clang-pseudo-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-query clang-query /usr/bin/clang-query-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-refactor clang-refactor /usr/bin/clang-refactor-${LLVM_VERSION} \
-                    --slave   /usr/local/bin/clang-rename clang-rename /usr/bin/clang-rename-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-reorder-fields clang-reorder-fields /usr/bin/clang-reorder-fields-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-repl clang-repl /usr/bin/clang-repl-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-scan-deps clang-scan-deps /usr/bin/clang-scan-deps-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/clang-sycl-linker clang-sycl-linker /usr/bin/clang-sycl-linker-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-tblgen clang-tblgen /usr/bin/clang-tblgen-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-${LLVM_VERSION} \
                     --slave   /usr/local/bin/clang-tidy-diff.py clang-tidy-diff.py /usr/bin/clang-tidy-diff-${LLVM_VERSION}.py \
@@ -60,6 +62,7 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/diagtool diagtool /usr/bin/diagtool-${LLVM_VERSION} \
                     --slave   /usr/local/bin/dsymutil dsymutil /usr/bin/dsymutil-${LLVM_VERSION} \
                     --slave   /usr/local/bin/find-all-symbols find-all-symbols /usr/bin/find-all-symbols-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/clang-git-clang-format clang-git-clang-format /usr/bin/clang-git-clang-format-${LLVM_VERSION} \
                     --slave   /usr/local/bin/hmaptool hmaptool /usr/bin/hmaptool-${LLVM_VERSION} \
                     --slave   /usr/local/bin/hwasan_symbolize hwasan_symbolize /usr/bin/hwasan_symbolize-${LLVM_VERSION} \
                     --slave   /usr/local/bin/intercept-build intercept-build /usr/bin/intercept-build-${LLVM_VERSION} \
@@ -70,6 +73,7 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/lld-link lld-link /usr/bin/lld-link-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lldb lldb /usr/bin/lldb-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lldb-argdumper lldb-argdumper /usr/bin/lldb-argdumper-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/clang-dap clang-dap /usr/bin/clang-dap-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lldb-instr lldb-instr /usr/bin/lldb-instr-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lldb-server lldb-server /usr/bin/lldb-server-${LLVM_VERSION} \
                     --slave   /usr/local/bin/lli lli /usr/bin/lli-${LLVM_VERSION} \
@@ -81,13 +85,16 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/llvm-bcanalyzer llvm-bcanalyzer /usr/bin/llvm-bcanalyzer-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-bitcode-strip llvm-bitcode-strip /usr/bin/llvm-bitcode-strip-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-bolt llvm-bolt /usr/bin/llvm-bolt-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/llvm-bolt-binary-analysis llvm-bolt-binary-analysis /usr/bin/llvm-bolt-binary-analysis-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-bolt-heatmap llvm-bolt-heatmap /usr/bin/llvm-bolt-heatmap-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-boltdiff llvm-boltdiff /usr/bin/llvm-boltdiff-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-c-test llvm-c-test /usr/bin/llvm-c-test-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-cat llvm-cat /usr/bin/llvm-cat-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-cfi-verify llvm-cfi-verify /usr/bin/llvm-cfi-verify-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/llvm-cgdata llvm-cgdata /usr/bin/llvm-cgdata-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-config llvm-config /usr/bin/llvm-config-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-cov llvm-cov /usr/bin/llvm-cov-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/llvm-ctxprof-util llvm-ctxprof-util /usr/bin/llvm-ctxprof-util-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-cvtres llvm-cvtres /usr/bin/llvm-cvtres-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-cxxdump llvm-cxxdump /usr/bin/llvm-cxxdump-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-cxxfilt llvm-cxxfilt /usr/bin/llvm-cxxfilt-${LLVM_VERSION} \
@@ -122,8 +129,6 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/llvm-nm llvm-nm /usr/bin/llvm-nm-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-objcopy llvm-objcopy /usr/bin/llvm-objcopy-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-objdump llvm-objdump /usr/bin/llvm-objdump-${LLVM_VERSION} \
-                    --slave   /usr/local/bin/llvm-omp-device-info llvm-omp-device-info /usr/bin/llvm-omp-device-info-${LLVM_VERSION} \
-                    --slave   /usr/local/bin/llvm-omp-kernel-replay llvm-omp-kernel-replay /usr/bin/llvm-omp-kernel-replay-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-opt-report llvm-opt-report /usr/bin/llvm-opt-report-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-otool llvm-otool /usr/bin/llvm-otool-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-pdbutil llvm-pdbutil /usr/bin/llvm-pdbutil-${LLVM_VERSION} \
@@ -133,6 +138,7 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/llvm-rc llvm-rc /usr/bin/llvm-rc-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-readelf llvm-readelf /usr/bin/llvm-readelf-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-readobj llvm-readobj /usr/bin/llvm-readobj-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/llvm-readtapi llvm-readtapi /usr/bin/llvm-readtapi-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-reduce llvm-reduce /usr/bin/llvm-reduce-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-remarkutil llvm-remarkutil /usr/bin/llvm-remarkutil-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-rtdyld llvm-rtdyld /usr/bin/llvm-rtdyld-${LLVM_VERSION} \
@@ -149,14 +155,20 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/llvm-windres llvm-windres /usr/bin/llvm-windres-${LLVM_VERSION} \
                     --slave   /usr/local/bin/llvm-xray llvm-xray /usr/bin/llvm-xray-${LLVM_VERSION} \
                     --slave   /usr/local/bin/merge-fdata merge-fdata /usr/bin/merge-fdata-${LLVM_VERSION} \
-                    --slave   /usr/local/bin/mlir-cpu-runner mlir-cpu-runner /usr/bin/mlir-cpu-runner-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/mlir-cat mlir-cat /usr/bin/mlir-cat-${LLVM_VERSION} \
                     --slave   /usr/local/bin/mlir-linalg-ods-yaml-gen mlir-linalg-ods-yaml-gen /usr/bin/mlir-linalg-ods-yaml-gen-${LLVM_VERSION} \
                     --slave   /usr/local/bin/mlir-lsp-server mlir-lsp-server /usr/bin/mlir-lsp-server-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/mlir-minimal-opt mlir-minimal-opt /usr/bin/mlir-minimal-opt-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/mlir-minimal-opt-canonicalize mlir-minimal-opt-canonicalize /usr/bin/mlir-minimal-opt-canonicalize-${LLVM_VERSION} \
                     --slave   /usr/local/bin/mlir-opt mlir-opt /usr/bin/mlir-opt-${LLVM_VERSION} \
                     --slave   /usr/local/bin/mlir-pdll mlir-pdll /usr/bin/mlir-pdll-${LLVM_VERSION} \
                     --slave   /usr/local/bin/mlir-pdll-lsp-server mlir-pdll-lsp-server /usr/bin/mlir-pdll-lsp-server-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/mlir-query mlir-query /usr/bin/mlir-query-${LLVM_VERSION} \
                     --slave   /usr/local/bin/mlir-reduce mlir-reduce /usr/bin/mlir-reduce-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/mlir-rewrite mlir-rewrite /usr/bin/mlir-rewrite-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/mlir-runner mlir-runner /usr/bin/mlir-runner-${LLVM_VERSION} \
                     --slave   /usr/local/bin/mlir-tblgen mlir-tblgen /usr/bin/mlir-tblgen-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/mlir-transform-opt mlir-transform-opt /usr/bin/mlir-transform-opt-${LLVM_VERSION} \
                     --slave   /usr/local/bin/mlir-translate mlir-translate /usr/bin/mlir-translate-${LLVM_VERSION} \
                     --slave   /usr/local/bin/modularize modularize /usr/bin/modularize-${LLVM_VERSION} \
                     --slave   /usr/local/bin/not not /usr/bin/not-${LLVM_VERSION} \
@@ -165,6 +177,7 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/opt opt /usr/bin/opt-${LLVM_VERSION} \
                     --slave   /usr/local/bin/perf2bolt perf2bolt /usr/bin/perf2bolt-${LLVM_VERSION} \
                     --slave   /usr/local/bin/pp-trace pp-trace /usr/bin/pp-trace-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/mlir-reduce-chunk-list mlir-reduce-chunk-list /usr/bin/mlir-reduce-chunk-list-${LLVM_VERSION} \
                     --slave   /usr/local/bin/run-clang-tidy run-clang-tidy /usr/bin/run-clang-tidy-${LLVM_VERSION} \
                     --slave   /usr/local/bin/run-clang-tidy.py run-clang-tidy.py /usr/bin/run-clang-tidy-${LLVM_VERSION}.py \
                     --slave   /usr/local/bin/sancov sancov /usr/bin/sancov-${LLVM_VERSION} \
@@ -174,6 +187,7 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/scan-view scan-view /usr/bin/scan-view-${LLVM_VERSION} \
                     --slave   /usr/local/bin/split-file split-file /usr/bin/split-file-${LLVM_VERSION} \
                     --slave   /usr/local/bin/tblgen-lsp-server tblgen-lsp-server /usr/bin/tblgen-lsp-server-${LLVM_VERSION} \
+                    --slave   /usr/local/bin/tblgen-to-irdl tblgen-to-irdl /usr/bin/tblgen-to-irdl-${LLVM_VERSION} \
                     --slave   /usr/local/bin/verify-uselistorder verify-uselistorder /usr/bin/verify-uselistorder-${LLVM_VERSION} \
                     --slave   /usr/local/bin/wasm-ld wasm-ld /usr/bin/wasm-ld-${LLVM_VERSION} \
                     --slave   /usr/local/bin/yaml-bench yaml-bench /usr/bin/yaml-bench-${LLVM_VERSION} \
