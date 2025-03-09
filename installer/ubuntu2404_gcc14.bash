@@ -7,7 +7,6 @@ GCC_VERSION=14
 apt-get install -y --no-install-recommends g++-${GCC_VERSION}
 update-alternatives --install /usr/local/bin/gcc        gcc        /usr/bin/gcc-${GCC_VERSION} ${GCC_VERSION} \
                     --slave   /usr/local/bin/g++        g++        /usr/bin/g++-${GCC_VERSION} \
-                    --slave   /usr/local/bin/cpp        cpp        /usr/bin/cpp-${GCC_VERSION} \
                     --slave   /usr/local/bin/gcc-ar     gcc-ar     /usr/bin/gcc-ar-${GCC_VERSION} \
                     --slave   /usr/local/bin/gcc-nm     gcc-nm     /usr/bin/gcc-nm-${GCC_VERSION} \
                     --slave   /usr/local/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-${GCC_VERSION} \
