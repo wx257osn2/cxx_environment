@@ -38,7 +38,9 @@ jobs:
     - uses: actions/checkout@v4
     - name: build
       shell: bash
-      run: ./build.bash
+      run: |
+        export PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+        ./build.bash
     - id: check-tag
       run: |
         if [[ ${{ github.ref }} =~ ^refs/tags/v[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$ ]]; then
