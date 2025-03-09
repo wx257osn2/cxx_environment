@@ -1,0 +1,17 @@
+#!/bin/bash
+
+here="$(realpath $(dirname ${BASH_SOURCE:-$0}))"
+
+if [ ! "${SINGULARITY:+true}" ]; then
+  if [ `which singularity` ]; then
+    SINGULARITY=singularity
+  elif [ `which apptainer` ]; then
+    SINGULARITY=apptainer
+  fi
+fi
+
+${SINGULARITY} run --cwd "${PWD}" \
+  --writable-tmpfs \
+  --bind "${PWD}":"${PWD}" \
+  "${here}/cxx-$(uname -m).sif" \
+  "$@"
