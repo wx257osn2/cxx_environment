@@ -12,7 +12,7 @@ From: ubuntu:24.04
 
   /installer/ubuntu2404_prelude.bash
   /installer/ubuntu2404_gcc14.bash
-  apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr
+  apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr git
   /installer/ubuntu2404_clang20.bash
   /installer/ubuntu2404_clang-format17.bash
   /installer/ubuntu2404_clang-format18.bash
