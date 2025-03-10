@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
 
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    apt-get install -y --no-install-recommends make ninja-build meson lcov gcovr
+    apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr
 
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
