@@ -14,7 +14,8 @@ bash "${here}/setup_overlay.bash"
 
 set -euo pipefail
 
-${SINGULARITY} shell --cwd "${PWD}" \
+${SINGULARITY} exec --cwd "${PWD}" \
   --overlay "${here}/overlay.img" \
   --bind "${PWD}":"${PWD}" \
-  "${here}/cxx-$(uname -m).sif"
+  "${here}/cxx-$(uname -m).sif" \
+  "/usr/bin/bash"
