@@ -5,7 +5,8 @@ FROM ubuntu:24.04 AS base
 
 ENV PIPX_HOME=/opt/pipx \
     PIPX_BIN_DIR=/usr/local/bin \
-    PIPX_MAN_DIR=/usr/local/share
+    PIPX_MAN_DIR=/usr/local/share \
+    CONAN_HOME=/opt/conan_home
 
 FROM base AS builder
 
@@ -80,5 +81,4 @@ ARG CMAKE_VERSION
 ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin \
     CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost-${BOOST_VERSION}/include \
     LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib \
-    LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib \
-    CONAN_HOME=/opt/conan_home
+    LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib

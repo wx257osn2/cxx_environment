@@ -17,7 +17,4 @@ if [ ! -f "${here}/overlay.img" ]; then
     --size 2048 \
     --create-dir /opt/conan_home \
     "${here}/overlay.img"
-  ${SINGULARITY} exec --overlay "${here}/overlay.img" \
-    "${here}/cxx-$(uname -m).sif" \
-    chmod -R a+w /opt/conan_home
 fi
