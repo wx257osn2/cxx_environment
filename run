@@ -10,7 +10,7 @@ if [ ! "${SINGULARITY:+true}" ]; then
   fi
 fi
 
-"${here}/setup_overlay.bash"
+bash "${here}/setup_overlay.bash"
 
 set -euo pipefail
 
