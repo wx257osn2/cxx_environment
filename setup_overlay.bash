@@ -10,6 +10,8 @@ if [ ! "${SINGULARITY:+true}" ]; then
   fi
 fi
 
+set -euo pipefail
+
 if [ ! -f "${here}/overlay.img" ]; then
   ${SINGULARITY} overlay create \
     --size 2048 \

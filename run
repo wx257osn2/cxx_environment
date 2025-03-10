@@ -12,6 +12,8 @@ fi
 
 "${here}/setup_overlay.bash"
 
+set -euo pipefail
+
 ${SINGULARITY} run --cwd "${PWD}" \
   --overlay "${here}/overlay.img" \
   --bind "${PWD}":"${PWD}" \

@@ -10,6 +10,8 @@ if [ ! "${SINGULARITY:+true}" ]; then
   fi
 fi
 
+set -euo pipefail
+
 ${SINGULARITY} run --cwd "${PWD}" \
   --writable-tmpfs \
   --bind "${PWD}":"${PWD}" \
