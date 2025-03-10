@@ -25,7 +25,7 @@ From: ubuntu:24.04
   /installer/ubuntu2404_postlude.bash
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
-  cat >${CUSTOM_ENV} <<EOF
+  cat >${CUSTOM_ENV} << 'EOF'
 #!/bin/bash
 export PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost-${BOOST_VERSION}/include

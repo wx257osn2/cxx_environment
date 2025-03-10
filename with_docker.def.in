@@ -5,5 +5,5 @@ From: cxx:latest
   set -euo pipefail
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
-  cat >${CUSTOM_ENV} <<EOF
+  cat >${CUSTOM_ENV} << 'EOF'
 #!/bin/bash
