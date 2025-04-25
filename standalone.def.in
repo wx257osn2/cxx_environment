@@ -5,7 +5,7 @@ From: ubuntu:24.04
 
   set -euo pipefail
 
-  BOOST_VERSION=1.87.0
+  BOOST_VERSION=1.88.0
   CMAKE_VERSION=3.31.3
 
   DEBIAN_FRONTEND=noninteractive
