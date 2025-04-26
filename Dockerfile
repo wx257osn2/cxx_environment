@@ -22,7 +22,7 @@ RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2404_gcc14.bash
+    /installer/ubuntu2404_gcc15.bash
 
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
