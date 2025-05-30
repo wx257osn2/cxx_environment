@@ -42,11 +42,21 @@ jobs:
         sudo apt update
         sudo apt install -y --no-install-recommends proot
         if [[ "${{ github.ref }}" = "refs/heads/master" ]]; then
-          DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=/tmp/.docker-buildx-cache-new --cache-from type=local,src=/tmp/.docker-buildx-cache --load" ./build.bash
+          if [[ "${{ steps.cached.outputs.cache-hit }}" = "true" ]]; then
+            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=/tmp/.docker-buildx-cache-new --cache-from type=local,src=/tmp/.docker-buildx-cache --load"
+          else
+            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=/tmp/.docker-buildx-cache-new --load"
+          fi
+          ./build.bash
           rm -rf /tmp/.docker-buildx-cache
           mv /tmp/.docker-buildx-cache-new /tmp/.docker-buildx-cache
         else
-          DOCKER_BUILD_EXTRA_OPTIONS="--cache-from type=local,src=/tmp/.docker-buildx-cache --load" ./build.bash
+          if [[ "${{ steps.cached.outputs.cache-hit }}" = "true" ]]; then
+            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-from type=local,src=/tmp/.docker-buildx-cache --load"
+          else
+            export DOCKER_BUILD_EXTRA_OPTIONS="--load"
+          fi
+          ./build.bash
         fi
     - name: remove previous cache
       if: github.ref == 'refs/heads/master' && steps.cached.outputs.cache-hit
