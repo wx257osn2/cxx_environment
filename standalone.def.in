@@ -22,6 +22,7 @@ From: ubuntu:24.04
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share CONAN_HOME=/opt/conan_home /installer/conan.bash
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/cpplint.bash
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/clangd-tidy.bash
+  PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/compiledb.bash
   /installer/ubuntu2404_postlude.bash
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh

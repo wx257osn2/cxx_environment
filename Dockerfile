@@ -63,6 +63,9 @@ RUN --mount=type=bind,src=installer,target=/installer \
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/clangd-tidy.bash
 
+RUN --mount=type=bind,src=installer,target=/installer \
+    /installer/compiledb.bash
+
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
