@@ -3,7 +3,7 @@
 set -euo pipefail
 
 GCC_VERSION=15.1.0
-GCC_MAJOR_VERSION=15
+GCC_MAJOR_VERSION=${GCC_VERSION%%.*}
 
 mkdir -p /opt
 curl -sSL https://github.com/wx257osn2/build-archive/releases/download/gcc-${GCC_VERSION}/ubuntu2404-$(uname -m).tar.zst | tar -C /opt -Ipzstd -xf -
