@@ -28,6 +28,7 @@ jobs:
       run: |
         echo "set man-db/auto-update false" | sudo debconf-communicate
         sudo dpkg-reconfigure man-db
+    - run: sudo apt update
     - uses: wx257osn2/setup-apptainer@v1.4.0
     - uses: actions/checkout@v4
     - uses: docker/setup-buildx-action@v3
@@ -39,7 +40,6 @@ jobs:
     - name: build
       shell: bash
       run: |
-        sudo apt update
         sudo apt install -y --no-install-recommends proot
         if [[ "${{ github.ref }}" = "refs/heads/master" ]]; then
           if [[ "${{ steps.cached.outputs.cache-hit }}" = "true" ]]; then
@@ -85,6 +85,7 @@ jobs:
       run: |
         echo "set man-db/auto-update false" | sudo debconf-communicate
         sudo dpkg-reconfigure man-db
+    - run: sudo apt update
     - uses: wx257osn2/setup-apptainer@v1.4.0
     - uses: actions/checkout@v4
     - name: build
