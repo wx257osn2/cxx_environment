@@ -49,7 +49,7 @@ RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     /installer/ubuntu2404_clang-format19.bash
 
 RUN --mount=type=bind,src=installer,target=/installer \
-    /installer/boost.bash ${BOOST_VERSION}
+    /installer/ubuntu2404_boost.bash ${BOOST_VERSION} gcc-15.1.0
 
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/cmake.bash ${CMAKE_VERSION}
@@ -82,6 +82,6 @@ ARG BOOST_VERSION
 ARG CMAKE_VERSION
 
 ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin \
-    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost-${BOOST_VERSION}/include \
-    LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib \
-    LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib
+    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-15.1.0/include \
+    LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-15.1.0/lib \
+    LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-15.1.0/lib
