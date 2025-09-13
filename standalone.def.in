@@ -28,7 +28,7 @@ From: ubuntu:24.04
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
   echo "#!/bin/bash" > ${CUSTOM_ENV}
-  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin" >> ${CUSTOM_ENV}
+  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin" >> ${CUSTOM_ENV}
   echo 'export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include" >> ${CUSTOM_ENV}
   echo 'export LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}
   echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}
