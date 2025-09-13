@@ -1,3 +1,4 @@
+ARG GCC_VERSION=15.1.0
 ARG BOOST_VERSION=1.88.0
 ARG CMAKE_VERSION=4.0.1
 
@@ -10,6 +11,7 @@ ENV PIPX_HOME=/opt/pipx \
 
 FROM base AS builder
 
+ARG GCC_VERSION
 ARG BOOST_VERSION
 ARG CMAKE_VERSION
 ARG DEBIAN_FRONTEND=noninteractive
@@ -22,7 +24,7 @@ RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2404_gcc15.bash
+    /installer/ubuntu2404_gcc15.bash ${GCC_VERSION}
 
 RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -49,7 +51,7 @@ RUN --mount=type=cache,target=/var/lib/apt,sharing=locked \
     /installer/ubuntu2404_clang-format19.bash
 
 RUN --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2404_boost.bash ${BOOST_VERSION} gcc-15.1.0
+    /installer/ubuntu2404_boost.bash ${BOOST_VERSION} gcc-${GCC_VERSION}
 
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/cmake.bash ${CMAKE_VERSION}
@@ -78,10 +80,11 @@ COPY --from=builder /opt /opt
 COPY --from=builder /etc/alternatives /etc/alternatives
 COPY --from=builder /etc/ssl /etc/ssl
 
+ARG GCC_VERSION
 ARG BOOST_VERSION
 ARG CMAKE_VERSION
 
 ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin \
-    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-15.1.0/include \
-    LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-15.1.0/lib \
-    LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-15.1.0/lib
+    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include \
+    LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib \
+    LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib

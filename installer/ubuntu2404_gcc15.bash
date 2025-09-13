@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-GCC_VERSION=15.1.0
+GCC_VERSION=${1}
 GCC_MAJOR_VERSION=${GCC_VERSION%%.*}
 
 mkdir -p /opt
