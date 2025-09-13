@@ -5,7 +5,7 @@ From: ubuntu:24.04
 
   set -euo pipefail
 
-  GCC_VERSION=15.1.0
+  GCC_VERSION=15.2.0
   BOOST_VERSION=1.88.0
   CMAKE_VERSION=4.0.1
 
