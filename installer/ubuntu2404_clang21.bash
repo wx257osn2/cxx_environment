@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-LLVM_VERSION=20
+LLVM_VERSION=21
 UBUNTU_CODENAME=noble
 
 if [ ! -f /usr/local/share/keyrings/llvm-snapshot-archive-keyring.gpg ]; then
