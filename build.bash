@@ -16,7 +16,7 @@ fi
 
 generate_def() {
   cat ${here}/${1}.def.in > ${here}/.generated.def
-  echo "PS1=\"\e[36m(cxx singularity)\e[0m ${PS1:-${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ }\"" >> ${here}/.generated.def
+  echo "PS1=\"\[\e[36m\](cxx singularity)\[\e[0m\] ${PS1:-${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ }\"" >> ${here}/.generated.def
   echo 'EOF' >> ${here}/.generated.def
   echo '  chmod +x $CUSTOM_ENV' >> ${here}/.generated.def
 }
