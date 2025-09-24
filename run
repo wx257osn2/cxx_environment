@@ -17,5 +17,6 @@ set -euo pipefail
 ${SINGULARITY} run --cwd "${PWD}" \
   --overlay "${here}/overlay.img" \
   --bind "${PWD}":"${PWD}" \
+  --bind "${here}/post_installer":"/installer" \
   "${here}/cxx-$(uname -m).sif" \
   "$@"

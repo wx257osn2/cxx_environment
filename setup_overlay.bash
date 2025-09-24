@@ -14,7 +14,9 @@ set -euo pipefail
 
 if [ ! -f "${here}/overlay.img" ]; then
   ${SINGULARITY} overlay create \
-    --size 2048 \
+    --size 16384 \
     --create-dir /opt/conan_home \
+    --create-dir /opt/msvc \
+    --create-dir /opt/wineprefix \
     "${here}/overlay.img"
 fi

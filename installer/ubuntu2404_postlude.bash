@@ -2,5 +2,5 @@
 
 set -euo pipefail
 
-apt-get purge -y --auto-remove curl gnupg xz-utils zstd
+apt-get purge -y --auto-remove gnupg xz-utils zstd
 apt-get clean
