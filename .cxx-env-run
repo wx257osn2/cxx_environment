@@ -12,9 +12,18 @@ fi
 
 set -euo pipefail
 
+sudo mkdir -p ${here}/conan_home
+sudo chown $(id -u):$(id -g) ${here}/conan_home
+sudo mkdir -p ${here}/msvc
+sudo chown $(id -u):$(id -g) ${here}/msvc
+sudo mkdir -p ${here}/wineprefix
+sudo chown $(id -u):$(id -g) ${here}/wineprefix
+
 ${SINGULARITY} run --cwd "${PWD}" \
-  --writable-tmpfs \
   --bind "${PWD}":"${PWD}" \
   --bind "${here}/post_installer":"/installer" \
+  --bind "${here}/conan_home":"/opt/conan_home" \
+  --bind "${here}/msvc":"/opt/msvc" \
+  --bind "${here}/wineprefix":"/opt/wineprefix" \
   "${here}/cxx-$(uname -m).sif" \
   "$@"

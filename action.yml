@@ -27,11 +27,11 @@ runs:
         echo "cxx_env_arch=${download_arch}" >> $GITHUB_ENV
     - uses: actions/cache@v4
       with:
-        path: /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif
+        path: /opt/cxx_environment
         key: sif-${{ inputs.version }}-${{ env.cxx_env_arch }}
     - shell: bash
       run: |
-        version=v2.6.0
+        version=v2.7.0
         sudo mkdir -p /opt/cxx_environment/post_installer
         sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
         sudo curl -sSL -o /opt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
