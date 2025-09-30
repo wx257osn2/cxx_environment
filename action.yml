@@ -10,9 +10,9 @@ inputs:
     required: false
     default: 'cxx'
   url_format:
-    description: 'image URL format, `{}` is replaced with inputs.version; `/${image_name_prefix}-${arch}.sif` will be concatenated from the back'
+    description: 'image URL format, `{}` is replaced with inputs.version; When the URI is oras protocol, `-${arch}` will be concatenated from the back. Otherwise, `/${image_name_prefix}-${arch}.sif` will be concatenated from the back'
     required: false
-    default: 'https://github.com/wx257osn2/cxx_environment/releases/download/{}'
+    default: 'oras://ghcr.io/wx257osn2/cxx_environment:{}'
 
 runs:
   using: "composite"
@@ -28,17 +28,31 @@ runs:
     - uses: actions/cache@v4
       with:
         path: /opt/cxx_environment
-        key: sif-${{ inputs.version }}-${{ env.cxx_env_arch }}
+        key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
     - uses: wx257osn2/setup-apptainer@v1.4.0
     - shell: bash
       run: |
-        version=v2.8.0
+        if [[ ${{ inputs.url_format }} == oras://* ]]; then
+          echo "registry_oras=1" >> $GITHUB_ENV
+        else
+          echo "registry_oras=0" >> $GITHUB_ENV
+        fi
+    - shell: bash
+      run: |
+        version=v3.0.0
         sudo mkdir -p /opt/cxx_environment/post_installer
         sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
         sudo curl -sSL -o /opt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
         sudo chmod +x /opt/cxx_environment/cxx-env-run /opt/cxx_environment/post_installer/msvc-wine.bash
         if [ ! -d /opt/cxx_environment/sandbox ]; then
-          curl -sSL -o cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
+          if [ ${{ env.registry_oras }} -eq 1 ]; then
+            apptainer pull $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")-${{ env.cxx_env_arch }}
+            if [ $(find . -name '*.sif') != "./cxx-${{ env.cxx_env_arch }}.sif" ]; then
+              mv $(find . -name '*.sif') cxx-${{ env.cxx_env_arch }}.sif
+            fi
+          else
+            curl -sSL -o cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
+          fi
           apptainer build --sandbox sandbox cxx-${{ env.cxx_env_arch }}.sif
           rm cxx-${{ env.cxx_env_arch }}.sif
           sudo mv sandbox /opt/cxx_environment/
