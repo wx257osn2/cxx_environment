@@ -25,5 +25,6 @@ ${SINGULARITY} run --cwd "${PWD}" \
   --bind "${here}/conan_home":"/opt/conan_home" \
   --bind "${here}/msvc":"/opt/msvc" \
   --bind "${here}/wineprefix":"/opt/wineprefix" \
-  "${here}/cxx-$(uname -m).sif" \
+  --bind "${RUNNER_TEMP}":"/tmp" \
+  "${here}/sandbox" \
   "$@"

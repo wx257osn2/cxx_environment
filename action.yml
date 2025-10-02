@@ -29,18 +29,21 @@ runs:
       with:
         path: /opt/cxx_environment
         key: sif-${{ inputs.version }}-${{ env.cxx_env_arch }}
+    - uses: wx257osn2/setup-apptainer@v1.4.0
     - shell: bash
       run: |
-        version=v2.7.0
+        version=v2.8.0
         sudo mkdir -p /opt/cxx_environment/post_installer
         sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
         sudo curl -sSL -o /opt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
         sudo chmod +x /opt/cxx_environment/cxx-env-run /opt/cxx_environment/post_installer/msvc-wine.bash
-        if [ ! -f /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif ]; then
-          sudo curl -sSL -o /opt/cxx_environment/cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
+        if [ ! -d /opt/cxx_environment/sandbox ]; then
+          curl -sSL -o cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
+          apptainer build --sandbox sandbox cxx-${{ env.cxx_env_arch }}.sif
+          rm cxx-${{ env.cxx_env_arch }}.sif
+          sudo mv sandbox /opt/cxx_environment/
         fi
         rm -rf ${{ github.workspace }}/cxx_environment
-    - uses: wx257osn2/setup-apptainer@v1.4.0
     - shell: bash
       run: |
         echo "PATH=${PATH}:/opt/cxx_environment" >> $GITHUB_ENV
