@@ -13,6 +13,11 @@ inputs:
     description: 'image URL format, `{}` is replaced with inputs.version; When the URI is oras protocol, `-${arch}` will be concatenated from the back. Otherwise, `/${image_name_prefix}-${arch}.sif` will be concatenated from the back'
     required: false
     default: 'oras://ghcr.io/wx257osn2/cxx_environment:{}'
+  save_cache:
+    description: 'save cache or not: even if this flag is `false`, cache will be restored when there is the cache'
+    required: false
+    default: true
+    type: boolean
 
 runs:
   using: "composite"
@@ -26,6 +31,12 @@ runs:
         fi
         echo "cxx_env_arch=${download_arch}" >> $GITHUB_ENV
     - uses: actions/cache@v4
+      if: ${{ fromJSON(inputs.save_cache) }}
+      with:
+        path: /opt/cxx_environment
+        key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
+    - uses: actions/cache/restore@v4
+      if: ${{ !fromJSON(inputs.save_cache) }}
       with:
         path: /opt/cxx_environment
         key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
@@ -39,7 +50,7 @@ runs:
         fi
     - shell: bash
       run: |
-        version=v3.0.1
+        version=v3.1.0
         sudo mkdir -p /opt/cxx_environment/post_installer
         sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
         sudo curl -sSL -o /opt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
