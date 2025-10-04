@@ -23,7 +23,12 @@ jobs:
       actions: write
     steps:
     - name: remove unused resources
-      run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+      run: |
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL $AGENT_TOOLSDIRECTORY /usr/local/share/boost /usr/lib/jvm /usr/share/swift /usr/local/julia /usr/share/kotlinc /usr/local/share/edge_driver /usr/local/share/chromedriver-linux64 /usr/local/share/gecko_driver /usr/share/miniconda /usr/share/sbt /usr/local/share/vcpkg /home/.dotnet/tools /etc/skel/.dotnet/tools /home/linuxbrew /usr/share/apache-maven-* /usr/share/gradle-* /usr/local/.ghcup /home/.nvm /usr/local/share/emacs /usr/local/share/man /usr/local/share/chromium /usr/local/share/powershell /usr/local/share/doc
+        docker image prune --all --force
+        sudo npm uninstall bazel || true
+        sudo npm uninstall bazelisk || true
+        rustup self uninstall -y
     - name: stop update man-page
       run: |
         echo "set man-db/auto-update false" | sudo debconf-communicate
