@@ -121,7 +121,7 @@ jobs:
         fi
     - uses: wx257osn2/setup-apptainer@v1.4.2
       if: steps.check-tag.outputs.deploy-needed == 'true'
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v5
       if: steps.check-tag.outputs.deploy-needed == 'true'
       with:
         name: sif-x86_64
@@ -149,7 +149,7 @@ jobs:
         fi
     - uses: wx257osn2/setup-apptainer@v1.4.2
       if: steps.check-tag.outputs.deploy-needed == 'true'
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v5
       if: steps.check-tag.outputs.deploy-needed == 'true'
       with:
         name: sif-aarch64
