@@ -6,13 +6,13 @@ modern C++ environment using singularity
 
 ### Use on Github Actions
 
-You can use `cxx-env-run` after `uses: wx257osn2/cxx_environment@v2` .
+You can use `cxx-env-run` after `uses: wx257osn2/cxx_environment@v3` .
 
 ```yaml
 runs:
-  - uses: wx257osn2/cxx_environment@v2
+  - uses: wx257osn2/cxx_environment@v3
     with:
-      version: v20250426    # specify image version
+      version: v20251004    # specify image version
   - run: cxx-env-run g++ --version
 ```
 
@@ -27,7 +27,7 @@ runs:
         - you can `sudo` , or
         - [`proot`](https://proot-me.github.io/) exists on `$PATH`
 
-#### Build
+#### Option A: Build an image
 
 ```console
 $ ./build.bash
@@ -39,21 +39,35 @@ or,
 # ./build.bash
 ```
 
+#### Option B: Download a prebuilt image
+
+```console
+$ singularity pull oras://ghcr.io/wx257osn2/cxx_environment:v20251004-$(uname -m)
+$ mv cxx_environment_v20251004-$(uname -m).sif cxx-$(uname -m).sif
+```
+
+or,
+
+```console
+$ apptainer pull oras://ghcr.io/wx257osn2/cxx_environment:v20251004-$(uname -m)
+$ mv cxx_environment_v20251004-$(uname -m).sif cxx-$(uname -m).sif
+```
+
 #### Exec some commands on the image
 
 ```console
 $ ./run clang++ --version
-Ubuntu clang version 20.1.4 (++20250425113151+62072e7f877e-1~exp1~20250425233305.108)
+Ubuntu clang version 21.1.3 (++20250923093437+74cb34a6f51a-1~exp1~20250923213555.35)
 Target: x86_64-pc-linux-gnu
 Thread model: posix
-InstalledDir: /usr/lib/llvm-20/bin
+InstalledDir: /usr/lib/llvm-21/bin
 ```
 
 #### Shell
 
 ```console
 $ ./bash
-user@hostname:/path/to/cxx_environment$
+(cxx singularity) user@hostname:/path/to/cxx_environment$
 ```
 
 ## License
