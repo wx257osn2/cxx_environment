@@ -16,9 +16,13 @@ fi
 
 dest=${second:-/opt/msvc}
 
-git clone https://github.com/mstorsjo/msvc-wine
-pushd msvc-wine
-trap 'popd; rm -rf msvc-wine' EXIT
+mkdir -p _msvc-wine
+pushd _msvc-wine
+trap 'popd; rm -rf _msvc-wine' EXIT
+git init
+git remote add origin https://github.com/mstorsjo/msvc-wine
+git fetch --depth 1 origin 91759aa0131a166f17602f81012737a6f353d608
+git reset --hard FETCH_HEAD
 ./vsdownload.py --major ${major} ${preview} --accept-license --only-host --dest ${dest}
 rm -r ${dest}/VC/Tools/MSVC/*
 ./vsdownload.py --major ${major} --msvc-version ${version} ${preview} --accept-license --only-host --dest ${dest}
