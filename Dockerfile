@@ -37,27 +37,27 @@ RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,shari
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2404_clang21.bash
+    /installer/ubuntu_clang.bash 21
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2404_clang-format17.bash
+    /installer/ubuntu_clang-format.bash 17
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2404_clang-format18.bash
+    /installer/ubuntu_clang-format.bash 18
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2404_clang-format19.bash
+    /installer/ubuntu_clang-format.bash 19
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2404_clang-format20.bash
+    /installer/ubuntu_clang-format.bash 20
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \

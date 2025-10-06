@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-LLVM_VERSION=21
-UBUNTU_CODENAME=noble
+LLVM_VERSION=$1
+UBUNTU_CODENAME=$(lsb_release -sc)
 
 if [ ! -f /usr/local/share/keyrings/llvm-snapshot-archive-keyring.gpg ]; then
   mkdir -p /usr/local/share/keyrings

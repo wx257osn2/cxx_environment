@@ -5,4 +5,4 @@ set -euo pipefail
 apt-get update
 apt-get upgrade -y
 
-apt-get install -y --no-install-recommends curl ca-certificates gnupg xz-utils pipx zstd
+apt-get install -y --no-install-recommends curl ca-certificates lsb-release gnupg xz-utils pipx zstd
