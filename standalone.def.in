@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: ubuntu:24.04
+From: ubuntu:25.10
 
 %post -c /bin/bash
 
@@ -15,32 +15,32 @@ From: ubuntu:24.04
   WIN_ARCH_0=${ARCH//86_/}
   WIN_ARCH=${WIN_ARCH_0//aarch/arm}
 
-  /installer/ubuntu2404_prelude.bash
-  /installer/ubuntu2404_gcc15.bash ${GCC_VERSION}
+  /installer/ubuntu2510_prelude.bash
+  /installer/ubuntu2510_gcc.bash ${GCC_VERSION%%.*}
   apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr git less
-  /installer/ubuntu_clang.bash 21
-  /installer/ubuntu_clang-format.bash 17
-  /installer/ubuntu_clang-format.bash 18
-  /installer/ubuntu_clang-format.bash 19
-  /installer/ubuntu_clang-format.bash 20
-  /installer/ubuntu2404_msvc-wine_prerequisites.bash
+  /installer/ubuntu2510_clang.bash 21
+  /installer/ubuntu2510_clang-format.bash 17
+  /installer/ubuntu2510_clang-format.bash 18
+  /installer/ubuntu2510_clang-format.bash 19
+  /installer/ubuntu2510_clang-format.bash 20
+  /installer/ubuntu2510_msvc-wine_prerequisites.bash
   /installer/cmake.bash ${CMAKE_VERSION}
-  /installer/ubuntu2404_boost.bash ${BOOST_VERSION} gcc-${GCC_VERSION}
+  /installer/boost.bash ${BOOST_VERSION}
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share CONAN_HOME=/opt/conan_home /installer/conan.bash
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/cpplint.bash
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/clangd-tidy.bash
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/compiledb.bash
   /installer/difftastic.bash ${DIFFTASTIC_VERSION}
-  /installer/ubuntu2404_postlude.bash
+  /installer/ubuntu2510_postlude.bash
   apt-get clean
   rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
   echo "#!/bin/bash" > ${CUSTOM_ENV}
-  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH}" >> ${CUSTOM_ENV}
-  echo 'export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include" >> ${CUSTOM_ENV}
-  echo 'export LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}
-  echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}
+  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH}" >> ${CUSTOM_ENV}
+  echo 'export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}'"/opt/boost-${BOOST_VERSION}/include" >> ${CUSTOM_ENV}
+  echo 'export LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}'"/opt/boost-${BOOST_VERSION}/lib" >> ${CUSTOM_ENV}
+  echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}'"/opt/boost-${BOOST_VERSION}/lib" >> ${CUSTOM_ENV}
   cat >> ${CUSTOM_ENV} << 'EOF'
 export PIPX_HOME=/opt/pipx
 export PIPX_BIN_DIR=/usr/local/bin
