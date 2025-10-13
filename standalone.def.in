@@ -10,7 +10,7 @@ From: ubuntu:25.10
   CMAKE_VERSION=4.1.1
   DIFFTASTIC_VERSION=0.64.0
 
-  DEBIAN_FRONTEND=noninteractive
+  export DEBIAN_FRONTEND=noninteractive
   ARCH=$(uname -m)
   WIN_ARCH_0=${ARCH//86_/}
   WIN_ARCH=${WIN_ARCH_0//aarch/arm}
