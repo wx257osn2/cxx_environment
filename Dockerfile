@@ -5,7 +5,7 @@ ARG DIFFTASTIC_VERSION=0.64.0
 
 ARG WIN_ARCH
 
-FROM ubuntu:25.10 AS base
+FROM ubuntu:24.04 AS base
 
 ENV PIPX_HOME=/opt/pipx \
     PIPX_BIN_DIR=/usr/local/bin \
@@ -23,12 +23,12 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_prelude.bash
+    /installer/ubuntu2404_prelude.bash
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_gcc.bash ${GCC_VERSION%%.*}
+    /installer/ubuntu2404_gcc15.bash ${GCC_VERSION}
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
@@ -37,35 +37,35 @@ RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,shari
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_clang.bash 21
+    /installer/ubuntu_clang.bash 21
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_clang-format.bash 17
+    /installer/ubuntu_clang-format.bash 17
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_clang-format.bash 18
+    /installer/ubuntu_clang-format.bash 18
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_clang-format.bash 19
+    /installer/ubuntu_clang-format.bash 19
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_clang-format.bash 20
+    /installer/ubuntu_clang-format.bash 20
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_msvc-wine_prerequisites.bash
+    /installer/ubuntu2404_msvc-wine_prerequisites.bash
 
 RUN --mount=type=bind,src=installer,target=/installer \
-    /installer/boost.bash ${BOOST_VERSION}
+    /installer/ubuntu2404_boost.bash ${BOOST_VERSION} gcc-${GCC_VERSION}
 
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/cmake.bash ${CMAKE_VERSION}
@@ -88,7 +88,7 @@ RUN --mount=type=bind,src=installer,target=/installer \
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2510_postlude.bash
+    /installer/ubuntu2404_postlude.bash
 
 FROM base AS final
 
@@ -103,10 +103,10 @@ ARG CMAKE_VERSION
 ARG DIFFTASTIC_VERSION
 ARG WIN_ARCH
 
-ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH} \
-    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost-${BOOST_VERSION}/include \
-    LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib \
-    LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost-${BOOST_VERSION}/lib \
+ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH} \
+    CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include \
+    LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib \
+    LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib \
     FONTCONFIG_FILE=/opt/fontconf/dummy.conf \
     WINEDEBUG=-all \
     WINEPREFIX=/opt/wineprefix
