@@ -26,8 +26,11 @@ git reset --hard FETCH_HEAD
 ./vsdownload.py --major ${major} ${preview} --accept-license --only-host --dest ${dest}
 rm -r ${dest}/VC/Tools/MSVC/*
 ./vsdownload.py --major ${major} --msvc-version ${version} ${preview} --accept-license --only-host --dest ${dest}
-if [ ${major} -ne 17 ]; then
+echo 'REDISTRIBUTABLE_PATH=$(echo ${BASE_UNIX}/VC/Redist/MSVC/${MSVCVER%.*}*)' >> wrappers/msvcenv.sh
+echo 'export WINEPATH="${WINEPATH};z:${REDISTRIBUTABLE_PATH//\//\\}\\debug_nonredist\\x64\\Microsoft.VC143.DebugCRT;${SDKBINDIR//\//\\}\\ucrt"' >> wrappers/msvcenv.sh
+if [ ${major} -eq 18 ]; then
   sed "s/170/${major}0/g" -i wrappers/msbuild
+  sed "s/143/145/g" -i wrappers/msvcenv.sh
 fi
 ./install.sh ${dest}
 
