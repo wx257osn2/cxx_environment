@@ -9,6 +9,7 @@ From: ubuntu:24.04
   BOOST_VERSION=1.89.0
   CMAKE_VERSION=4.1.1
   DIFFTASTIC_VERSION=0.64.0
+  DEMUMBLE_VERSION=main
 
   export DEBIAN_FRONTEND=noninteractive
   ARCH=$(uname -m)
@@ -31,13 +32,14 @@ From: ubuntu:24.04
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/clangd-tidy.bash
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/compiledb.bash
   /installer/difftastic.bash ${DIFFTASTIC_VERSION}
+  /installer/demumble.bash ${DEMUMBLE_VERSION}
   /installer/ubuntu2404_postlude.bash
   apt-get clean
   rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
   echo "#!/bin/bash" > ${CUSTOM_ENV}
-  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH}" >> ${CUSTOM_ENV}
+  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/demumble-${DEMUMBLE_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH}" >> ${CUSTOM_ENV}
   echo 'export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include" >> ${CUSTOM_ENV}
   echo 'export LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}
   echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}

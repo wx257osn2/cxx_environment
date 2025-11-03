@@ -2,6 +2,7 @@ ARG GCC_VERSION=15.2.0
 ARG BOOST_VERSION=1.89.0
 ARG CMAKE_VERSION=4.1.1
 ARG DIFFTASTIC_VERSION=0.64.0
+ARG DEMUMBLE_VERSION=main
 
 ARG WIN_ARCH
 
@@ -18,6 +19,7 @@ ARG GCC_VERSION
 ARG BOOST_VERSION
 ARG CMAKE_VERSION
 ARG DIFFTASTIC_VERSION
+ARG DEMUMBLE_VERSION
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
@@ -85,6 +87,9 @@ RUN --mount=type=bind,src=installer,target=/installer \
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/difftastic.bash ${DIFFTASTIC_VERSION}
 
+RUN --mount=type=bind,src=installer,target=/installer \
+    /installer/demumble.bash ${DEMUMBLE_VERSION}
+
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
@@ -101,9 +106,10 @@ ARG GCC_VERSION
 ARG BOOST_VERSION
 ARG CMAKE_VERSION
 ARG DIFFTASTIC_VERSION
+ARG DEMUMBLE_VERSION
 ARG WIN_ARCH
 
-ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH} \
+ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/demumble-${DEMUMBLE_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH} \
     CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include \
     LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib \
     LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib \
