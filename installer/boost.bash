@@ -1,8 +1,8 @@
 #!/bin/bash
 
-BOOST_VERSION=${1}
-
 set -euo pipefail
+
+BOOST_VERSION=${1}
 
 curl -L https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}-b2-nodocs.tar.xz | tar xJ
 cd boost-${BOOST_VERSION}
