@@ -29,9 +29,7 @@ RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,shari
     --mount=type=bind,src=installer,target=/installer \
     /installer/ubuntu2404_prelude.bash
 
-RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
-    --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
-    --mount=type=bind,src=installer,target=/installer \
+RUN --mount=type=bind,src=installer,target=/installer \
     /installer/ubuntu2404_gcc15.bash ${GCC_VERSION}
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
