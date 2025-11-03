@@ -50,7 +50,7 @@ runs:
         fi
     - shell: bash
       run: |
-        version=v3.1.0
+        version=v3.2.0
         sudo mkdir -p /opt/cxx_environment/post_installer
         sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
         sudo curl -sSL -o /opt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
