@@ -40,7 +40,7 @@ runs:
       with:
         path: /opt/cxx_environment
         key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
-    - uses: wx257osn2/setup-apptainer@v1.4.2
+    - uses: wx257osn2/setup-apptainer@v1.4.4
     - shell: bash
       run: |
         if [[ ${{ inputs.url_format }} == oras://* ]]; then
