@@ -11,16 +11,8 @@ jobs:
   with_docker:
     strategy:
       matrix:
-        include:
-          - image: ubuntu-24.04
-            arch: x86_64
-          - image: ubuntu-24.04-arm
-            arch: aarch64
+        image: [ubuntu-24.04, ubuntu-24.04-arm]
     runs-on: ${{ matrix.image }}
-    env:
-      cache-key: docker-buildx-cache-${{ matrix.arch }}
-    permissions:
-      actions: write
     steps:
     - name: remove unused resources
       run: |
@@ -37,45 +29,12 @@ jobs:
     - uses: wx257osn2/setup-apptainer@v1.4.4
     - uses: actions/checkout@v5
     - uses: docker/setup-buildx-action@v3
-    - uses: actions/cache/restore@v4
-      id: cached
-      with:
-        path: /tmp/.docker-buildx-cache
-        key: ${{ env.cache-key }}
+    - uses: crazy-max/ghaction-github-runtime@v3
     - name: build
       shell: bash
       run: |
         sudo apt install -y --no-install-recommends proot
-        if [[ "${{ github.ref }}" = "refs/heads/master" ]]; then
-          if [[ "${{ steps.cached.outputs.cache-hit }}" = "true" ]]; then
-            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=/tmp/.docker-buildx-cache-new --cache-from type=local,src=/tmp/.docker-buildx-cache --load"
-          else
-            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=/tmp/.docker-buildx-cache-new --load"
-          fi
-          ./build.bash
-          rm -rf /tmp/.docker-buildx-cache
-          mv /tmp/.docker-buildx-cache-new /tmp/.docker-buildx-cache
-        else
-          if [[ "${{ steps.cached.outputs.cache-hit }}" = "true" ]]; then
-            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-from type=local,src=/tmp/.docker-buildx-cache --load"
-          else
-            export DOCKER_BUILD_EXTRA_OPTIONS="--load"
-          fi
-          ./build.bash
-        fi
-    - name: remove previous cache
-      if: github.ref == 'refs/heads/master' && steps.cached.outputs.cache-hit
-      continue-on-error: true
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        gh extension install actions/gh-actions-cache
-        gh actions-cache delete "${{ env.cache-key }}" --confirm
-    - uses: actions/cache/save@v4
-      if: github.ref == 'refs/heads/master'
-      with:
-        path: /tmp/.docker-buildx-cache
-        key: ${{ env.cache-key }}
+        DOCKER_BUILD_EXTRA_OPTIONS="--cache-from type=gha --cache-to type=gha,mode=max --load" ./build.bash
   standalone:
     strategy:
       matrix:
