@@ -50,7 +50,7 @@ runs:
         fi
     - shell: bash
       run: |
-        version=v3.2.0
+        version=v3.2.1
         sudo mkdir -p /opt/cxx_environment/post_installer
         sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
         sudo curl -sSL -o /opt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
@@ -64,8 +64,9 @@ runs:
           else
             curl -sSL -o cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
           fi
-          apptainer build --sandbox sandbox cxx-${{ env.cxx_env_arch }}.sif
-          rm cxx-${{ env.cxx_env_arch }}.sif
+          sudo mv cxx-${{ env.cxx_env_arch }}.sif /mnt
+          apptainer build --sandbox sandbox /mnt/cxx-${{ env.cxx_env_arch }}.sif
+          sudo rm /mnt/cxx-${{ env.cxx_env_arch }}.sif
           sudo mv sandbox /opt/cxx_environment/
         fi
         rm -rf ${{ github.workspace }}/cxx_environment
