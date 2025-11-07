@@ -33,12 +33,12 @@ runs:
     - uses: actions/cache@v4
       if: ${{ fromJSON(inputs.save_cache) }}
       with:
-        path: /opt/cxx_environment
+        path: /mnt/cxx_environment
         key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
     - uses: actions/cache/restore@v4
       if: ${{ !fromJSON(inputs.save_cache) }}
       with:
-        path: /opt/cxx_environment
+        path: /mnt/cxx_environment
         key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
     - uses: wx257osn2/setup-apptainer@v1.4.4
     - shell: bash
@@ -51,11 +51,11 @@ runs:
     - shell: bash
       run: |
         version=v3.2.1
-        sudo mkdir -p /opt/cxx_environment/post_installer
-        sudo curl -sSL -o /opt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
-        sudo curl -sSL -o /opt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
-        sudo chmod +x /opt/cxx_environment/cxx-env-run /opt/cxx_environment/post_installer/msvc-wine.bash
-        if [ ! -d /opt/cxx_environment/sandbox ]; then
+        sudo mkdir -p /mnt/cxx_environment/post_installer
+        sudo curl -sSL -o /mnt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
+        sudo curl -sSL -o /mnt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
+        sudo chmod +x /mnt/cxx_environment/cxx-env-run /mnt/cxx_environment/post_installer/msvc-wine.bash
+        if [ ! -d /mnt/cxx_environment/sandbox ]; then
           if [ ${{ env.registry_oras }} -eq 1 ]; then
             apptainer pull $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")-${{ env.cxx_env_arch }}
             if [ $(find . -name '*.sif') != "./cxx-${{ env.cxx_env_arch }}.sif" ]; then
@@ -67,10 +67,10 @@ runs:
           sudo mv cxx-${{ env.cxx_env_arch }}.sif /mnt
           apptainer build --sandbox sandbox /mnt/cxx-${{ env.cxx_env_arch }}.sif
           sudo rm /mnt/cxx-${{ env.cxx_env_arch }}.sif
-          sudo mv sandbox /opt/cxx_environment/
+          sudo mv sandbox /mnt/cxx_environment/
         fi
         rm -rf ${{ github.workspace }}/cxx_environment
     - shell: bash
       run: |
-        echo "PATH=${PATH}:/opt/cxx_environment" >> $GITHUB_ENV
+        echo "PATH=${PATH}:/mnt/cxx_environment" >> $GITHUB_ENV
         echo "SINGULARITY=apptainer" >> $GITHUB_ENV
