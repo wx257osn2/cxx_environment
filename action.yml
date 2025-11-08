@@ -60,14 +60,9 @@ runs:
         curl -sSL -o post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
         chmod +x cxx-env-run post_installer/msvc-wine.bash
         if [ ! -d sandbox ]; then
-          if [ ${{ env.registry_oras }} -eq 1 ]; then
-            apptainer pull $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")-${{ env.cxx_env_arch }}
-            if [ $(find . -name '*.sif') != "./cxx-${{ env.cxx_env_arch }}.sif" ]; then
-              mv $(find . -name '*.sif') cxx-${{ env.cxx_env_arch }}.sif
-            fi
-          else
-            curl -sSL -o cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
-          fi
+          curl -sSL -o pull.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/pull.bash
+          ./pull.bash ${{ inputs.version }} ${{ inputs.url_format }} ${{ inputs.image_name_prefix }}
+          rm pull.bash
           apptainer build --sandbox sandbox cxx-${{ env.cxx_env_arch }}.sif
           rm cxx-${{ env.cxx_env_arch }}.sif
         fi

@@ -161,8 +161,7 @@ jobs:
     - run: |
         version=${REF##refs/tags/}
         echo '```' > release_notes
-        echo "$ singularity pull oras://ghcr.io/wx257osn2/cxx_environment:${version}-x86_64 && mv cxx_environment_${version}-x86_64.sif cxx-x86_64.sif # or" >> release_notes
-        echo "$ singularity pull oras://ghcr.io/wx257osn2/cxx_environment:${version}-aarch64 && mv cxx_environment_${version}-aarch64.sif cxx-aarch64.sif" >> release_notes
+        echo "$ ./pull.bash ${version}" >> release_notes
         echo '```' >> release_notes
       if: steps.check-tag.outputs.deploy-needed == 'true'
       env:
