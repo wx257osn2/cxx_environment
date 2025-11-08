@@ -12,8 +12,26 @@ fi
 
 set -euo pipefail
 
+yasuno () {
+  printf "${1} [y/N]: "
+  exec < /dev/tty
+  read yn
+  case $yn in
+    [yY]*) return 0 ;;
+        *) return 1 ;;
+  esac
+}
+
 arch=$(uname -m)
 uri=${2:-"oras://ghcr.io/wx257osn2/cxx_environment:{}"}
+
+if [ -f ${here}/cxx-${arch}.sif ]; then
+  yasuno "${here}/cxx-${arch}.sif already exists. overwrite?"
+  ret=$?
+  if [ $? -eq 1 ]; then
+    exit $ret
+  fi
+fi
 
 if [[ ${uri} == oras://* ]]; then
   ${SINGULARITY} pull $(echo ${uri} | sed "s/{}/${1}/g")-${arch}
