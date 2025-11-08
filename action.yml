@@ -52,12 +52,14 @@ runs:
         fi
     - shell: bash
       run: |
-        version=v3.2.2
+        version=v3.2.3
         sudo mkdir -p /mnt/cxx_environment/post_installer
-        sudo curl -sSL -o /mnt/cxx_environment/cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
-        sudo curl -sSL -o /mnt/cxx_environment/post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
-        sudo chmod +x /mnt/cxx_environment/cxx-env-run /mnt/cxx_environment/post_installer/msvc-wine.bash
-        if [ ! -d /mnt/cxx_environment/sandbox ]; then
+        sudo chown -R $(id -u):$(id -g) /mnt/cxx_environment
+        pushd /mnt/cxx_environment
+        curl -sSL -o cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/.cxx-env-run
+        curl -sSL -o post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/post_installer/msvc-wine.bash
+        chmod +x cxx-env-run post_installer/msvc-wine.bash
+        if [ ! -d sandbox ]; then
           if [ ${{ env.registry_oras }} -eq 1 ]; then
             apptainer pull $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")-${{ env.cxx_env_arch }}
             if [ $(find . -name '*.sif') != "./cxx-${{ env.cxx_env_arch }}.sif" ]; then
@@ -66,10 +68,8 @@ runs:
           else
             curl -sSL -o cxx-${{ env.cxx_env_arch }}.sif $(echo ${{ inputs.url_format }} | sed "s/{}/${{ inputs.version }}/g")/${{ inputs.image_name_prefix }}-${{ env.cxx_env_arch }}.sif
           fi
-          sudo mv cxx-${{ env.cxx_env_arch }}.sif /mnt
-          apptainer build --sandbox sandbox /mnt/cxx-${{ env.cxx_env_arch }}.sif
-          sudo rm /mnt/cxx-${{ env.cxx_env_arch }}.sif
-          sudo mv sandbox /mnt/cxx_environment/
+          apptainer build --sandbox sandbox cxx-${{ env.cxx_env_arch }}.sif
+          rm cxx-${{ env.cxx_env_arch }}.sif
         fi
         rm -rf ${{ github.workspace }}/cxx_environment
     - shell: bash
