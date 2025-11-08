@@ -42,15 +42,7 @@ or,
 #### Option B: Download a prebuilt image
 
 ```console
-$ singularity pull oras://ghcr.io/wx257osn2/cxx_environment:v20251103-$(uname -m)
-$ mv cxx_environment_v20251103-$(uname -m).sif cxx-$(uname -m).sif
-```
-
-or,
-
-```console
-$ apptainer pull oras://ghcr.io/wx257osn2/cxx_environment:v20251103-$(uname -m)
-$ mv cxx_environment_v20251103-$(uname -m).sif cxx-$(uname -m).sif
+$ ./pull.bash v20251103
 ```
 
 #### Exec some commands on the image
