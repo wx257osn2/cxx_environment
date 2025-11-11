@@ -8,6 +8,24 @@ on:
     branches: [ "**" ]
 
 jobs:
+  version-check:
+    runs-on: ubuntu-24.04-arm
+    steps:
+    - id: check-tag
+      run: |
+        if [[ ${{ github.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "action-release=true" >> $GITHUB_OUTPUT
+        fi
+    - uses: actions/checkout@v5
+      if: steps.check-tag.outputs.action-release == 'true'
+    - if: steps.check-tag.outputs.action-release == 'true'
+      run: |
+        tag=$(echo ${{ github.ref }} | sed 's@refs/tags/@@g')
+        version=$(grep 'version=v' action.yml | sed 's/ *version=//g')
+        if [[ ${tag} != ${version} ]]; then
+          echo "${tag} is not match with ${version}, you've forgotten bumping up!!"
+          exit 1
+        fi
   docker:
     strategy:
       matrix:
@@ -17,6 +35,7 @@ jobs:
           - image: ubuntu-24.04-arm
             arch: aarch64
     runs-on: ${{ matrix.image }}
+    needs: version-check
     env:
       cache-key: docker-buildx-cache-${{ matrix.arch }}
     permissions:
@@ -89,6 +108,7 @@ jobs:
           - image: ubuntu-24.04-arm
             arch: aarch64
     runs-on: ${{ matrix.image }}
+    needs: version-check
     steps:
     - name: stop update man-page
       run: |
