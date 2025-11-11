@@ -52,7 +52,7 @@ runs:
         fi
     - shell: bash
       run: |
-        version=v3.3.0
+        version=v3.3.1
         sudo mkdir -p /mnt/cxx_environment/post_installer
         sudo chown -R $(id -u):$(id -g) /mnt/cxx_environment
         pushd /mnt/cxx_environment
@@ -61,6 +61,7 @@ runs:
         chmod +x cxx-env-run post_installer/msvc-wine.bash
         if [ ! -d sandbox ]; then
           curl -sSL -o pull.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/tags/${version}/pull.bash
+          chmod +x pull.bash
           ./pull.bash ${{ inputs.version }} ${{ inputs.url_format }} ${{ inputs.image_name_prefix }}
           rm pull.bash
           apptainer build --sandbox sandbox cxx-${{ env.cxx_env_arch }}.sif
