@@ -1,8 +1,8 @@
 ARG GCC_VERSION=15.2.0
 ARG CLANG_HEAD_VERSION=9aacc1a5fecf
-ARG BOOST_VERSION=1.89.0
-ARG CMAKE_VERSION=4.1.1
-ARG DIFFTASTIC_VERSION=0.64.0
+ARG BOOST_VERSION=1.90.0
+ARG CMAKE_VERSION=4.2.3
+ARG DIFFTASTIC_VERSION=0.67.0
 ARG DEMUMBLE_VERSION=main
 ARG MOLD_VERSION=2.40.4
 
@@ -41,7 +41,7 @@ RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,shari
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu_clang.bash 21
+    /installer/ubuntu_clang.bash 22
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
@@ -62,6 +62,11 @@ RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,shari
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
     /installer/ubuntu_clang-format.bash 20
+
+RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
+    --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
+    --mount=type=bind,src=installer,target=/installer \
+    /installer/ubuntu_clang-format.bash 21
 
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/ubuntu2404_clang-head.bash ${CLANG_HEAD_VERSION}

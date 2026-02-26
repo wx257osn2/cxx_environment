@@ -7,9 +7,9 @@ From: ubuntu:24.04
 
   GCC_VERSION=15.2.0
   CLANG_HEAD_VERSION=9aacc1a5fecf
-  BOOST_VERSION=1.89.0
-  CMAKE_VERSION=4.1.1
-  DIFFTASTIC_VERSION=0.64.0
+  BOOST_VERSION=1.90.0
+  CMAKE_VERSION=4.2.3
+  DIFFTASTIC_VERSION=0.67.0
   DEMUMBLE_VERSION=main
   MOLD_VERSION=2.40.4
 
@@ -21,11 +21,12 @@ From: ubuntu:24.04
   /installer/ubuntu2404_prelude.bash
   /installer/ubuntu2404_gcc15.bash ${GCC_VERSION}
   apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr git less
-  /installer/ubuntu_clang.bash 21
+  /installer/ubuntu_clang.bash 22
   /installer/ubuntu_clang-format.bash 17
   /installer/ubuntu_clang-format.bash 18
   /installer/ubuntu_clang-format.bash 19
   /installer/ubuntu_clang-format.bash 20
+  /installer/ubuntu_clang-format.bash 21
   /installer/ubuntu2404_clang-head.bash ${CLANG_HEAD_VERSION}
   /installer/ubuntu2404_msvc-wine_prerequisites.bash
   /installer/cmake.bash ${CMAKE_VERSION}
