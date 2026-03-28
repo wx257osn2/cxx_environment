@@ -5,6 +5,7 @@ ARG CMAKE_VERSION=4.2.3
 ARG DIFFTASTIC_VERSION=0.67.0
 ARG DEMUMBLE_VERSION=main
 ARG MOLD_VERSION=2.40.4
+ARG WILD_VERSION=0.8.0
 
 ARG WIN_ARCH
 
@@ -24,6 +25,7 @@ ARG CMAKE_VERSION
 ARG DIFFTASTIC_VERSION
 ARG DEMUMBLE_VERSION
 ARG MOLD_VERSION
+ARG WILD_VERSION
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
@@ -103,6 +105,9 @@ RUN --mount=type=bind,src=installer,target=/installer \
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/mold.bash ${MOLD_VERSION}
 
+RUN --mount=type=bind,src=installer,target=/installer \
+    /installer/wild.bash ${WILD_VERSION}
+
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
@@ -122,9 +127,10 @@ ARG CMAKE_VERSION
 ARG DIFFTASTIC_VERSION
 ARG DEMUMBLE_VERSION
 ARG MOLD_VERSION
+ARG WILD_VERSION
 ARG WIN_ARCH
 
-ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/demumble-${DEMUMBLE_VERSION}/bin:/opt/mold-${MOLD_VERSION}/bin:/opt/clang-${CLANG_HEAD_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH} \
+ENV PATH=${PATH}:/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/demumble-${DEMUMBLE_VERSION}/bin:/opt/mold-${MOLD_VERSION}/bin:/opt/wild-${WILD_VERSION}/bin:/opt/clang-${CLANG_HEAD_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH} \
     CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include \
     LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib \
     LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib \
