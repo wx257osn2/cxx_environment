@@ -9,7 +9,7 @@ on:
 
 jobs:
   version-check:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-slim
     steps:
     - id: check-tag
       run: |
@@ -30,9 +30,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: ubuntu-24.04
+          - image: ubuntu-26.04
             arch: x86_64
-          - image: ubuntu-24.04-arm
+          - image: ubuntu-26.04-arm
             arch: aarch64
     runs-on: ${{ matrix.image }}
     needs: version-check
@@ -104,9 +104,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: ubuntu-24.04
+          - image: ubuntu-26.04
             arch: x86_64
-          - image: ubuntu-24.04-arm
+          - image: ubuntu-26.04-arm
             arch: aarch64
     runs-on: ${{ matrix.image }}
     needs: version-check
@@ -137,9 +137,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: ubuntu-24.04
+          - image: ubuntu-26.04
             arch: x86_64
-          - image: ubuntu-24.04-arm
+          - image: ubuntu-26.04-arm
             arch: aarch64
     runs-on: ${{ matrix.image }}
     needs: standalone
@@ -170,7 +170,7 @@ jobs:
       env:
         REF: ${{ github.ref }}
   deploy:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-slim
     needs: push
     if: startsWith(github.ref, 'refs/tags/v2')
     permissions:
