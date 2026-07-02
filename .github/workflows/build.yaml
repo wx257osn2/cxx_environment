@@ -33,7 +33,7 @@ jobs:
       - if: steps.check-tag.outputs.deploy-needed == 'true'
         run: |
           tag=$(echo ${{ github.ref }} | sed 's@refs/tags/@@g')
-          version=$(grep 'version: v' README.md | sed 's/ *version: \(v[0-9]+\) .*/\1/g')
+          version=$(grep 'version: v' README.md | sed 's/ *version: \(v2[0-9]*\) .*/\1/g')
           if [[ ${tag} != ${version} ]]; then
             echo "${tag} is not match with ${version}, you've forgotten bumping up!!"
             exit 1
