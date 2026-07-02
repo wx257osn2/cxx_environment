@@ -53,7 +53,7 @@ runs:
           fi
     - shell: bash
       run: |
-        version=v3.5.0
+        version=v3.5.1
         sudo mkdir -p /mnt/cxx_environment/post_installer
         sudo chown -R $(id -u):$(id -g) /mnt/cxx_environment
         pushd /mnt/cxx_environment
