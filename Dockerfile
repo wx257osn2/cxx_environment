@@ -1,4 +1,4 @@
-ARG GCC_VERSION=15.2.0
+ARG GCC_VERSION=16.1.0
 ARG BOOST_VERSION=1.91.0
 ARG CMAKE_VERSION=4.3.3
 ARG DIFFTASTIC_VERSION=0.69.0
@@ -32,7 +32,7 @@ RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,shari
     /installer/ubuntu2604_prelude.bash
 
 RUN --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu2604_gcc15.bash ${GCC_VERSION}
+    /installer/ubuntu2604_gcc16.bash
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \

@@ -5,7 +5,7 @@ From: ubuntu:26.04
 
   set -euo pipefail
 
-  GCC_VERSION=15.2.0
+  GCC_VERSION=16.1.0
   BOOST_VERSION=1.91.0
   CMAKE_VERSION=4.3.3
   DIFFTASTIC_VERSION=0.69.0
@@ -19,7 +19,7 @@ From: ubuntu:26.04
   WIN_ARCH=${WIN_ARCH_0//aarch/arm}
 
   /installer/ubuntu2604_prelude.bash
-  /installer/ubuntu2604_gcc15.bash ${GCC_VERSION}
+  /installer/ubuntu2604_gcc16.bash
   apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr git less
   /installer/ubuntu_clang.bash 22
   /installer/ubuntu_clang-format.bash 21

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-GCC_VERSION=15
+GCC_VERSION=16
 
 apt-get install -y --no-install-recommends g++-${GCC_VERSION}
 update-alternatives --install /usr/local/bin/gcc        gcc        /usr/bin/gcc-${GCC_VERSION} ${GCC_VERSION} \
