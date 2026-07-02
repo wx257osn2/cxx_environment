@@ -16,7 +16,7 @@ jobs:
         if [[ ${{ github.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           echo "action-release=true" >> $GITHUB_OUTPUT
         fi
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
       if: steps.check-tag.outputs.action-release == 'true'
     - if: steps.check-tag.outputs.action-release == 'true'
       run: |
@@ -54,10 +54,10 @@ jobs:
         sudo dpkg-reconfigure man-db
     - run: sudo apt update
     - parallel:
-      - uses: wx257osn2/setup-apptainer@v1.4.4
-      - uses: actions/checkout@v5
-      - uses: docker/setup-buildx-action@v3
-      - uses: actions/cache/restore@v4
+      - uses: wx257osn2/setup-apptainer@v1.5.2
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - uses: actions/cache/restore@v6
         id: cached
         with:
           path: /tmp/.docker-buildx-cache
@@ -95,7 +95,7 @@ jobs:
       run: |
         gh extension install actions/gh-actions-cache
         gh actions-cache delete "${{ env.cache-key }}" --confirm
-    - uses: actions/cache/save@v4
+    - uses: actions/cache/save@v6
       if: github.ref == 'refs/heads/master'
       with:
         path: /tmp/.docker-buildx-cache
@@ -117,8 +117,8 @@ jobs:
         sudo dpkg-reconfigure man-db
     - run: sudo apt update
     - parallel:
-      - uses: wx257osn2/setup-apptainer@v1.4.4
-      - uses: actions/checkout@v5
+      - uses: wx257osn2/setup-apptainer@v1.5.2
+      - uses: actions/checkout@v7
     - name: build
       shell: bash
       run: |
@@ -128,7 +128,7 @@ jobs:
         if [[ ${{ github.ref }} =~ ^refs/tags/v[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$ ]]; then
           echo "deploy-needed=true" >> $GITHUB_OUTPUT
         fi
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       if: steps.check-tag.outputs.deploy-needed == 'true'
       with:
         name: sif-${{ matrix.arch }}
@@ -153,9 +153,9 @@ jobs:
           echo "deploy-needed=true" >> $GITHUB_OUTPUT
         fi
     - parallel:
-      - uses: wx257osn2/setup-apptainer@v1.4.4
+      - uses: wx257osn2/setup-apptainer@v1.5.2
         if: steps.check-tag.outputs.deploy-needed == 'true'
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v8
         if: steps.check-tag.outputs.deploy-needed == 'true'
         with:
           name: sif-${{ matrix.arch }}
@@ -189,7 +189,7 @@ jobs:
       if: steps.check-tag.outputs.deploy-needed == 'true'
       env:
         REF: ${{ github.ref }}
-    - uses: softprops/action-gh-release@v2
+    - uses: softprops/action-gh-release@v3
       if: steps.check-tag.outputs.deploy-needed == 'true'
       with:
         body_path: release_notes

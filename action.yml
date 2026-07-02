@@ -33,17 +33,17 @@ runs:
         sudo mkdir -p /mnt/cxx_environment
         sudo chown $(id -u):$(id -g) /mnt/cxx_environment
     - parallel:
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         if: ${{ fromJSON(inputs.save_cache) }}
         with:
           path: /mnt/cxx_environment
           key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v6
         if: ${{ !fromJSON(inputs.save_cache) }}
         with:
           path: /mnt/cxx_environment
           key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
-      - uses: wx257osn2/setup-apptainer@v1.4.4
+      - uses: wx257osn2/setup-apptainer@v1.5.2
       - shell: bash
         run: |
           if [[ ${{ inputs.url_format }} == oras://* ]]; then
