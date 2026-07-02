@@ -32,24 +32,25 @@ runs:
         echo "cxx_env_arch=${download_arch}" >> $GITHUB_ENV
         sudo mkdir -p /mnt/cxx_environment
         sudo chown $(id -u):$(id -g) /mnt/cxx_environment
-    - uses: actions/cache@v4
-      if: ${{ fromJSON(inputs.save_cache) }}
-      with:
-        path: /mnt/cxx_environment
-        key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
-    - uses: actions/cache/restore@v4
-      if: ${{ !fromJSON(inputs.save_cache) }}
-      with:
-        path: /mnt/cxx_environment
-        key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
-    - uses: wx257osn2/setup-apptainer@v1.4.4
-    - shell: bash
-      run: |
-        if [[ ${{ inputs.url_format }} == oras://* ]]; then
-          echo "registry_oras=1" >> $GITHUB_ENV
-        else
-          echo "registry_oras=0" >> $GITHUB_ENV
-        fi
+    - parallel:
+      - uses: actions/cache@v4
+        if: ${{ fromJSON(inputs.save_cache) }}
+        with:
+          path: /mnt/cxx_environment
+          key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
+      - uses: actions/cache/restore@v4
+        if: ${{ !fromJSON(inputs.save_cache) }}
+        with:
+          path: /mnt/cxx_environment
+          key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
+      - uses: wx257osn2/setup-apptainer@v1.4.4
+      - shell: bash
+        run: |
+          if [[ ${{ inputs.url_format }} == oras://* ]]; then
+            echo "registry_oras=1" >> $GITHUB_ENV
+          else
+            echo "registry_oras=0" >> $GITHUB_ENV
+          fi
     - shell: bash
       run: |
         version=v3.4.0

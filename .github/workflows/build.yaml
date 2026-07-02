@@ -53,14 +53,15 @@ jobs:
         echo "set man-db/auto-update false" | sudo debconf-communicate
         sudo dpkg-reconfigure man-db
     - run: sudo apt update
-    - uses: wx257osn2/setup-apptainer@v1.4.4
-    - uses: actions/checkout@v5
-    - uses: docker/setup-buildx-action@v3
-    - uses: actions/cache/restore@v4
-      id: cached
-      with:
-        path: /tmp/.docker-buildx-cache
-        key: ${{ env.cache-key }}
+    - parallel:
+      - uses: wx257osn2/setup-apptainer@v1.4.4
+      - uses: actions/checkout@v5
+      - uses: docker/setup-buildx-action@v3
+      - uses: actions/cache/restore@v4
+        id: cached
+        with:
+          path: /tmp/.docker-buildx-cache
+          key: ${{ env.cache-key }}
     - name: build
       shell: bash
       run: |
@@ -115,8 +116,9 @@ jobs:
         echo "set man-db/auto-update false" | sudo debconf-communicate
         sudo dpkg-reconfigure man-db
     - run: sudo apt update
-    - uses: wx257osn2/setup-apptainer@v1.4.4
-    - uses: actions/checkout@v5
+    - parallel:
+      - uses: wx257osn2/setup-apptainer@v1.4.4
+      - uses: actions/checkout@v5
     - name: build
       shell: bash
       run: |
@@ -150,12 +152,13 @@ jobs:
         if [[ ${{ github.ref }} =~ ^refs/tags/v[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$ ]]; then
           echo "deploy-needed=true" >> $GITHUB_OUTPUT
         fi
-    - uses: wx257osn2/setup-apptainer@v1.4.4
-      if: steps.check-tag.outputs.deploy-needed == 'true'
-    - uses: actions/download-artifact@v5
-      if: steps.check-tag.outputs.deploy-needed == 'true'
-      with:
-        name: sif-${{ matrix.arch }}
+    - parallel:
+      - uses: wx257osn2/setup-apptainer@v1.4.4
+        if: steps.check-tag.outputs.deploy-needed == 'true'
+      - uses: actions/download-artifact@v5
+        if: steps.check-tag.outputs.deploy-needed == 'true'
+        with:
+          name: sif-${{ matrix.arch }}
     - run: echo -n $GITHUB_TOKEN | apptainer registry login --username ${{ github.actor }} --password-stdin oras://ghcr.io
       if: steps.check-tag.outputs.deploy-needed == 'true'
       env:
