@@ -16,6 +16,7 @@ set -euo pipefail
 
 ${SINGULARITY} exec --cwd "${PWD}" \
   --overlay "${here}/overlay.img" \
+  --bind /usr/share/zoneinfo/Etc/UTC:/usr/share/zoneinfo/Etc/UTC \
   --bind "${PWD}":"${PWD}" \
   --bind "${here}/post_installer":"/installer" \
   "${here}/cxx-$(uname -m).sif" \
