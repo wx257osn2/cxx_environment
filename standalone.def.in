@@ -1,37 +1,31 @@
 Bootstrap: docker
-From: ubuntu:24.04
+From: ubuntu:26.04
 
 %post -c /bin/bash
 
   set -euo pipefail
 
   GCC_VERSION=15.2.0
-  CLANG_HEAD_VERSION=9aacc1a5fecf
-  BOOST_VERSION=1.90.0
-  CMAKE_VERSION=4.2.3
-  DIFFTASTIC_VERSION=0.67.0
+  BOOST_VERSION=1.91.0
+  CMAKE_VERSION=4.3.3
+  DIFFTASTIC_VERSION=0.69.0
   DEMUMBLE_VERSION=main
-  MOLD_VERSION=2.40.4
-  WILD_VERSION=0.8.0
+  MOLD_VERSION=2.41.0
+  WILD_VERSION=0.9.0
 
   export DEBIAN_FRONTEND=noninteractive
   ARCH=$(uname -m)
   WIN_ARCH_0=${ARCH//86_/}
   WIN_ARCH=${WIN_ARCH_0//aarch/arm}
 
-  /installer/ubuntu2404_prelude.bash
-  /installer/ubuntu2404_gcc15.bash ${GCC_VERSION}
+  /installer/ubuntu2604_prelude.bash
+  /installer/ubuntu2604_gcc15.bash ${GCC_VERSION}
   apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr git less
   /installer/ubuntu_clang.bash 22
-  /installer/ubuntu_clang-format.bash 17
-  /installer/ubuntu_clang-format.bash 18
-  /installer/ubuntu_clang-format.bash 19
-  /installer/ubuntu_clang-format.bash 20
   /installer/ubuntu_clang-format.bash 21
-  /installer/ubuntu2404_clang-head.bash ${CLANG_HEAD_VERSION}
   /installer/ubuntu2404_msvc-wine_prerequisites.bash
   /installer/cmake.bash ${CMAKE_VERSION}
-  /installer/ubuntu2404_boost.bash ${BOOST_VERSION} gcc-${GCC_VERSION}
+  /installer/ubuntu2604_boost.bash ${BOOST_VERSION} gcc-${GCC_VERSION}
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share CONAN_HOME=/opt/conan_home /installer/conan.bash
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/cpplint.bash
   PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin PIPX_MAN_DIR=/usr/local/share /installer/clangd-tidy.bash
@@ -46,7 +40,7 @@ From: ubuntu:24.04
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
   echo "#!/bin/bash" > ${CUSTOM_ENV}
-  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/demumble-${DEMUMBLE_VERSION}/bin:/opt/mold-${MOLD_VERSION}/bin:/opt/wild-${WILD_VERSION}/bin:/opt/clang-${CLANG_HEAD_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH}" >> ${CUSTOM_ENV}
+  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/demumble-${DEMUMBLE_VERSION}/bin:/opt/mold-${MOLD_VERSION}/bin:/opt/wild-${WILD_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH}" >> ${CUSTOM_ENV}
   echo 'export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include" >> ${CUSTOM_ENV}
   echo 'export LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}
   echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}

@@ -12,7 +12,7 @@ You can use `cxx-env-run` after `uses: wx257osn2/cxx_environment@v3` .
 runs:
   - uses: wx257osn2/cxx_environment@v3
     with:
-      version: v20251103    # specify image version
+      version: v20260703    # specify image version
   - run: cxx-env-run g++ --version
 ```
 
@@ -42,7 +42,7 @@ or,
 #### Option B: Download a prebuilt image
 
 ```console
-$ ./pull.bash v20251103
+$ ./pull.bash v20260703
 ```
 
 #### Exec some commands on the image
