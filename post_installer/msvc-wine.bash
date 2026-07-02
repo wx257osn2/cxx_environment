@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-version=${1}
+version=${1:-"18.0"}
 major=${version%.*}
 
 second=${2:-""}
