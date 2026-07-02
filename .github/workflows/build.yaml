@@ -16,16 +16,28 @@ jobs:
         if [[ ${{ github.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           echo "action-release=true" >> $GITHUB_OUTPUT
         fi
-    - uses: actions/checkout@v7
-      if: steps.check-tag.outputs.action-release == 'true'
-    - if: steps.check-tag.outputs.action-release == 'true'
-      run: |
-        tag=$(echo ${{ github.ref }} | sed 's@refs/tags/@@g')
-        version=$(grep 'version=v' action.yml | sed 's/ *version=//g')
-        if [[ ${tag} != ${version} ]]; then
-          echo "${tag} is not match with ${version}, you've forgotten bumping up!!"
-          exit 1
+        if [[ ${{ github.ref }} =~ ^refs/tags/v[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$ ]]; then
+          echo "deploy-needed=true" >> $GITHUB_OUTPUT
         fi
+    - uses: actions/checkout@v7
+      if: steps.check-tag.outputs.action-release == 'true' || steps.check-tag.outputs.deploy-needed == 'true'
+    - parallel:
+      - if: steps.check-tag.outputs.action-release == 'true'
+        run: |
+          tag=$(echo ${{ github.ref }} | sed 's@refs/tags/@@g')
+          version=$(grep 'version=v' action.yml | sed 's/ *version=//g')
+          if [[ ${tag} != ${version} ]]; then
+            echo "${tag} is not match with ${version}, you've forgotten bumping up!!"
+            exit 1
+          fi
+      - if: steps.check-tag.outputs.deploy-needed == 'true'
+        run: |
+          tag=$(echo ${{ github.ref }} | sed 's@refs/tags/@@g')
+          version=$(grep 'version: v' README.md | sed 's/ *version: \(v[0-9]+\) .*/\1/g')
+          if [[ ${tag} != ${version} ]]; then
+            echo "${tag} is not match with ${version}, you've forgotten bumping up!!"
+            exit 1
+          fi
   docker:
     strategy:
       matrix:
