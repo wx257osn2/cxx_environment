@@ -49,10 +49,10 @@ $ ./pull.bash v20260703
 
 ```console
 $ ./run clang++ --version
-Ubuntu clang version 21.1.3 (++20250923093437+74cb34a6f51a-1~exp1~20250923213555.35)
+Ubuntu clang version 22.1.8 (++20260613092110+e80beda6e255-1~exp1~20260613092127.15)
 Target: x86_64-pc-linux-gnu
 Thread model: posix
-InstalledDir: /usr/lib/llvm-21/bin
+InstalledDir: /usr/lib/llvm-22/bin
 ```
 
 #### Shell
