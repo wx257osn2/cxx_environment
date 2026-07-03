@@ -67,7 +67,7 @@ jobs:
       - uses: actions/cache/restore@v6
         id: cached
         with:
-          path: /tmp/.docker-buildx-cache
+          path: ${{ github.workspace }}/.docker-buildx-cache
           key: ${{ env.cache-key }}
     - run: |
         mkdir -p ${APPTAINER_TMPDIR}
@@ -82,16 +82,16 @@ jobs:
         WIN_ARCH=${WIN_ARCH_0//aarch/arm}
         if [[ "${{ github.ref }}" = "refs/heads/master" ]]; then
           if [[ "${{ steps.cached.outputs.cache-hit }}" = "true" ]]; then
-            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=/tmp/.docker-buildx-cache-new --cache-from type=local,src=/tmp/.docker-buildx-cache --load"
+            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=/${{ github.workspace }}/.docker-buildx-cache-new --cache-from type=local,src=${{ github.workspace }}/.docker-buildx-cache --load"
           else
-            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=/tmp/.docker-buildx-cache-new --load"
+            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-to type=local,mode=max,dest=${{ github.workspace }}/.docker-buildx-cache-new --load"
           fi
           docker buildx build -t cxx:latest -f ./Dockerfile --build-arg WIN_ARCH=${WIN_ARCH} ${DOCKER_BUILD_EXTRA_OPTIONS} ./docker_build
-          rm -rf /tmp/.docker-buildx-cache
-          mv /tmp/.docker-buildx-cache-new /tmp/.docker-buildx-cache
+          rm -rf ${{ github.workspace }}/.docker-buildx-cache
+          mv ${{ github.workspace }}/.docker-buildx-cache-new ${{ github.workspace }}/.docker-buildx-cache
         else
           if [[ "${{ steps.cached.outputs.cache-hit }}" = "true" ]]; then
-            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-from type=local,src=/tmp/.docker-buildx-cache --load"
+            export DOCKER_BUILD_EXTRA_OPTIONS="--cache-from type=local,src=${{ github.workspace }}/.docker-buildx-cache --load"
           else
             export DOCKER_BUILD_EXTRA_OPTIONS="--load"
           fi
@@ -108,7 +108,7 @@ jobs:
     - uses: actions/cache/save@v6
       if: github.ref == 'refs/heads/master'
       with:
-        path: /tmp/.docker-buildx-cache
+        path: ${{ github.workspace }}/.docker-buildx-cache
         key: ${{ env.cache-key }}
   standalone:
     strategy:
