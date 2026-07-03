@@ -50,6 +50,8 @@ jobs:
     needs: version-check
     env:
       cache-key: docker-buildx-cache-${{ matrix.arch }}
+      APPTAINER_TMPDIR: ${{ github.workspace }}/.apptainer-tmp
+      APPTAINER_CACHEDIR: ${{ github.workspace }}/.apptainer-cache
     permissions:
       actions: write
     steps:
@@ -57,15 +59,7 @@ jobs:
       run: |
         echo "set man-db/auto-update false" | sudo debconf-communicate
         sudo dpkg-reconfigure man-db
-    - parallel:
-      - name: remove unused resources
-        run: |
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL $AGENT_TOOLSDIRECTORY /usr/local/share/boost /usr/lib/jvm /usr/share/swift /usr/local/julia /usr/share/kotlinc /usr/local/share/edge_driver /usr/local/share/chromedriver-linux64 /usr/local/share/gecko_driver /usr/share/miniconda /usr/share/sbt /usr/local/share/vcpkg /home/.dotnet/tools /etc/skel/.dotnet/tools /home/linuxbrew /usr/share/apache-maven-* /usr/share/gradle-* /usr/local/.ghcup /home/.nvm /usr/local/share/emacs /usr/local/share/man /usr/local/share/chromium /usr/local/share/powershell /usr/local/share/doc /opt/actionarchivecache /opt/az /opt/google-cloud-sdk /opt/hostedtoolcache
-          docker image prune --all --force
-          sudo npm uninstall bazel || true
-          sudo npm uninstall bazelisk || true
-          rustup self uninstall -y
-      - run: sudo apt update
+    - run: sudo apt update
     - parallel:
       - uses: wx257osn2/setup-apptainer@v1.5.2
       - uses: actions/checkout@v7
@@ -75,6 +69,9 @@ jobs:
         with:
           path: /tmp/.docker-buildx-cache
           key: ${{ env.cache-key }}
+    - run: |
+        mkdir -p ${APPTAINER_TMPDIR}
+        mkdir -p ${APPTAINER_CACHEDIR}
     - name: build
       shell: bash
       run: |
@@ -123,23 +120,21 @@ jobs:
             arch: aarch64
     runs-on: ${{ matrix.image }}
     needs: version-check
+    env:
+      APPTAINER_TMPDIR: ${{ github.workspace }}/.apptainer-tmp
+      APPTAINER_CACHEDIR: ${{ github.workspace }}/.apptainer-cache
     steps:
     - name: stop update man-page
       run: |
         echo "set man-db/auto-update false" | sudo debconf-communicate
         sudo dpkg-reconfigure man-db
-    - parallel:
-      - name: remove unused resources
-        run: |
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL $AGENT_TOOLSDIRECTORY /usr/local/share/boost /usr/lib/jvm /usr/share/swift /usr/local/julia /usr/share/kotlinc /usr/local/share/edge_driver /usr/local/share/chromedriver-linux64 /usr/local/share/gecko_driver /usr/share/miniconda /usr/share/sbt /usr/local/share/vcpkg /home/.dotnet/tools /etc/skel/.dotnet/tools /home/linuxbrew /usr/share/apache-maven-* /usr/share/gradle-* /usr/local/.ghcup /home/.nvm /usr/local/share/emacs /usr/local/share/man /usr/local/share/chromium /usr/local/share/powershell /usr/local/share/doc /opt/actionarchivecache /opt/az /opt/google-cloud-sdk /opt/hostedtoolcache
-          docker image prune --all --force
-          sudo npm uninstall bazel || true
-          sudo npm uninstall bazelisk || true
-          rustup self uninstall -y
-      - run: sudo apt update
+    - run: sudo apt update
     - parallel:
       - uses: wx257osn2/setup-apptainer@v1.5.2
       - uses: actions/checkout@v7
+    - run: |
+        mkdir -p ${APPTAINER_TMPDIR}
+        mkdir -p ${APPTAINER_CACHEDIR}
     - name: build
       shell: bash
       run: |
