@@ -42,7 +42,7 @@ or,
 #### Option B: Download a prebuilt image
 
 ```console
-$ ./pull.bash v20260703
+$ ./pull.bash
 ```
 
 #### Exec some commands on the image

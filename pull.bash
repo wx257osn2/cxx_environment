@@ -22,6 +22,7 @@ yasuno () {
   esac
 }
 
+version=${1:-$(grep 'version: v' ${here}/README.md | sed 's/ *version: \(v2[0-9]*\) .*/\1/g')}
 arch=$(uname -m)
 uri=${2:-"oras://ghcr.io/wx257osn2/cxx_environment:{}"}
 
@@ -35,10 +36,10 @@ fi
 
 if [[ ${uri} == oras://* ]]; then
   ${SINGULARITY} pull $(echo ${uri} | sed "s/{}/${1}/g")-${arch}
-  filename=$(echo ${uri##*/} | sed "s/:{}/_${1}-${arch}/g").sif
+  filename=$(echo ${uri##*/} | sed "s/:{}/_${version}-${arch}/g").sif
   if [ ${filename} != "cxx-${arch}.sif" ]; then
     mv ${filename} ${here}/cxx-${arch}.sif
   fi
 else
-  curl -sSL -o ${here}/cxx-${arch}.sif $(echo ${uri} | sed "s/{}/${1}/g")/${3:-cxx}-${arch}.sif
+  curl -sSL -o ${here}/cxx-${arch}.sif $(echo ${uri} | sed "s/{}/${version}/g")/${3:-cxx}-${arch}.sif
 fi
