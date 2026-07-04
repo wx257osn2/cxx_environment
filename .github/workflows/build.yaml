@@ -38,6 +38,37 @@ jobs:
             echo "${tag} is not match with ${version}, you've forgotten bumping up!!"
             exit 1
           fi
+  action-check:
+    strategy:
+      matrix:
+        include:
+          - image: ubuntu-26.04
+            arch: x86_64
+          - image: ubuntu-26.04-arm
+            arch: aarch64
+    runs-on: ${{ matrix.image }}
+    needs: version-check
+    if: github.ref == 'refs/heads/master'
+    steps:
+    - id: x
+      run: |
+        version=$(curl -sSL https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/heads/master/README.md | grep 'version: v' | sed 's/ *version: \(v2[0-9]*\) .*/\1/g')
+        echo "latest_version=${version}" >> $GITHUB_OUTPUT
+    - uses: wx257osn2/cxx_environment@master
+      with:
+        version: ${{ steps.x.outputs.latest_version }}
+        save_cache: false
+    - run: |
+        pushd /mnt/cxx_environment
+        rm cxx-env-run
+        curl -sSL -o cxx-env-run https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/heads/master/.cxx-env-run
+        rm post_installer/msvc-wine.bash
+        curl -sSL -o post_installer/msvc-wine.bash https://raw.githubusercontent.com/wx257osn2/cxx_environment/refs/heads/master/post_installer/msvc-wine.bash
+        chmod +x cxx-env-run post_installer/msvc-wine.bash
+        popd
+    - run: |
+        cxx-env-run g++ --version
+        cxx-env-run clang++ --version
   docker:
     strategy:
       matrix:
