@@ -39,14 +39,7 @@ jobs:
             exit 1
           fi
   action-check:
-    strategy:
-      matrix:
-        include:
-          - image: ubuntu-26.04
-            arch: x86_64
-          - image: ubuntu-26.04-arm
-            arch: aarch64
-    runs-on: ${{ matrix.image }}
+    runs-on: ubuntu-26.04
     needs: version-check
     if: github.ref == 'refs/heads/master'
     steps:
@@ -69,6 +62,8 @@ jobs:
     - run: |
         cxx-env-run g++ --version
         cxx-env-run clang++ --version
+        cxx-env-run /installer/msvc-wine.bash
+        cxx-env-run cl /?
   docker:
     strategy:
       matrix:
