@@ -28,6 +28,9 @@ rm -r ${dest}/VC/Tools/MSVC/*
 ./vsdownload.py --major ${major} --msvc-version ${version} ${preview} --accept-license --only-host --dest ${dest}
 echo 'REDISTRIBUTABLE_PATH=$(echo ${BASE_UNIX}/VC/Redist/MSVC/${MSVCVER%.*}*)' >> wrappers/msvcenv.sh
 echo 'export WINEPATH="${WINEPATH};z:${REDISTRIBUTABLE_PATH//\//\\}\\debug_nonredist\\x64\\Microsoft.VC143.DebugCRT;${SDKBINDIR//\//\\}\\ucrt"' >> wrappers/msvcenv.sh
+if [ ${major} -eq 18 ]; then
+  sed "s/143/145/g" -i wrappers/msvcenv.sh
+fi
 ./install.sh ${dest}
 
 wine_version=$(wine --version | sed -e 's/wine-\([0-9.]*\) (.*)/\1/')
