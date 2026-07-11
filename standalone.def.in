@@ -12,6 +12,7 @@ From: ubuntu:26.04
   DEMUMBLE_VERSION=main
   MOLD_VERSION=2.41.0
   WILD_VERSION=0.9.0
+  CABIN_VERSION=0.17.0
 
   export DEBIAN_FRONTEND=noninteractive
   ARCH=$(uname -m)
@@ -34,13 +35,14 @@ From: ubuntu:26.04
   /installer/demumble.bash ${DEMUMBLE_VERSION}
   /installer/mold.bash ${MOLD_VERSION}
   /installer/wild.bash ${WILD_VERSION}
+  /installer/cabin.bash ${CABIN_VERSION}
   /installer/ubuntu2404_postlude.bash
   apt-get clean
   rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
   CUSTOM_ENV=/.singularity.d/env/99-zz_custom_env.sh
   echo "#!/bin/bash" > ${CUSTOM_ENV}
-  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/demumble-${DEMUMBLE_VERSION}/bin:/opt/mold-${MOLD_VERSION}/bin:/opt/wild-${WILD_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH}" >> ${CUSTOM_ENV}
+  echo 'export PATH=${PATH}:'"/opt/cmake-${CMAKE_VERSION}/bin:/opt/gcc-${GCC_VERSION}/bin:/opt/difftastic-${DIFFTASTIC_VERSION}/bin:/opt/demumble-${DEMUMBLE_VERSION}/bin:/opt/mold-${MOLD_VERSION}/bin:/opt/wild-${WILD_VERSION}/bin:/opt/cabin-${CABIN_VERSION}/bin:/opt/msvc/bin/${WIN_ARCH}" >> ${CUSTOM_ENV}
   echo 'export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH:+${CPLUS_INCLUDE_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/include" >> ${CUSTOM_ENV}
   echo 'export LIBRARY_PATH=${LIBRARY_PATH:+${LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}
   echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}'"/opt/boost/${BOOST_VERSION}/gcc-${GCC_VERSION}/lib" >> ${CUSTOM_ENV}
