@@ -1,10 +1,10 @@
-ARG GCC_VERSION=16.1.0
-ARG BOOST_VERSION=1.91.0
-ARG CMAKE_VERSION=4.3.3
-ARG DIFFTASTIC_VERSION=0.69.0
+ARG GCC_VERSION=16.2.0
+ARG BOOST_VERSION=1.92.0
+ARG CMAKE_VERSION=4.4.3
+ARG DIFFTASTIC_VERSION=0.70.0
 ARG DEMUMBLE_VERSION=main
-ARG MOLD_VERSION=2.41.0
-ARG WILD_VERSION=0.9.0
+ARG MOLD_VERSION=2.42.0
+ARG WILD_VERSION=0.10.0
 ARG CABIN_VERSION=0.17.0
 
 ARG WIN_ARCH
@@ -44,12 +44,17 @@ RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,shari
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu_clang.bash 22 /opt/gcc-${GCC_VERSION}
+    /installer/ubuntu_clang.bash 23 /opt/gcc-${GCC_VERSION}
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
     /installer/ubuntu_clang-format.bash 21
+
+RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
+    --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
+    --mount=type=bind,src=installer,target=/installer \
+    /installer/ubuntu_clang-format.bash 22
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \

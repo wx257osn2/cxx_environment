@@ -6,13 +6,13 @@ From: ubuntu:26.04
   set -euo pipefail
 
   UBUNTU_VERSION=2604
-  GCC_VERSION=16.1.0
-  BOOST_VERSION=1.91.0
-  CMAKE_VERSION=4.3.3
-  DIFFTASTIC_VERSION=0.69.0
+  GCC_VERSION=16.2.0
+  BOOST_VERSION=1.92.0
+  CMAKE_VERSION=4.4.3
+  DIFFTASTIC_VERSION=0.70.0
   DEMUMBLE_VERSION=main
-  MOLD_VERSION=2.41.0
-  WILD_VERSION=0.9.0
+  MOLD_VERSION=2.42.0
+  WILD_VERSION=0.10.0
   CABIN_VERSION=0.17.0
 
   export DEBIAN_FRONTEND=noninteractive
@@ -23,8 +23,9 @@ From: ubuntu:26.04
   /installer/ubuntu${UBUNTU_VERSION}_prelude.bash
   /installer/ubuntu_gcc.bash ${UBUNTU_VERSION} ${GCC_VERSION}
   apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr git less
-  /installer/ubuntu_clang.bash 22 /opt/gcc-${GCC_VERSION}
+  /installer/ubuntu_clang.bash 23 /opt/gcc-${GCC_VERSION}
   /installer/ubuntu_clang-format.bash 21
+  /installer/ubuntu_clang-format.bash 22
   /installer/ubuntu2404_msvc-wine_prerequisites.bash
   /installer/cmake.bash ${CMAKE_VERSION}
   /installer/ubuntu_boost.bash ${UBUNTU_VERSION} ${BOOST_VERSION} gcc-${GCC_VERSION}
