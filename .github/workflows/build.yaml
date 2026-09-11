@@ -140,7 +140,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - image: ubuntu-24.04
+          - image: ubuntu-26.04
             arch: x86_64
           - image: ubuntu-26.04-arm
             arch: aarch64
