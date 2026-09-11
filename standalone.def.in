@@ -23,7 +23,7 @@ From: ubuntu:26.04
   /installer/ubuntu${UBUNTU_VERSION}_prelude.bash
   /installer/ubuntu_gcc.bash ${UBUNTU_VERSION} ${GCC_VERSION}
   apt-get install -y --no-install-recommends make pkg-config ninja-build meson lcov gcovr git less
-  /installer/ubuntu_clang.bash 22
+  /installer/ubuntu_clang.bash 22 /opt/gcc-${GCC_VERSION}
   /installer/ubuntu_clang-format.bash 21
   /installer/ubuntu2404_msvc-wine_prerequisites.bash
   /installer/cmake.bash ${CMAKE_VERSION}

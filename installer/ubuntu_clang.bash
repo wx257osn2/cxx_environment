@@ -2,8 +2,9 @@
 
 set -euo pipefail
 
-LLVM_VERSION=$1
+LLVM_VERSION=${1}
 UBUNTU_CODENAME=$(lsb_release -sc)
+GCC_PATH=${2:-}
 
 if [ ! -f /usr/local/share/keyrings/llvm-snapshot-archive-keyring.gpg ]; then
   mkdir -p /usr/local/share/keyrings
@@ -192,3 +193,17 @@ update-alternatives --install /usr/local/bin/clang clang /usr/bin/clang-${LLVM_V
                     --slave   /usr/local/bin/wasm-ld wasm-ld /usr/bin/wasm-ld-${LLVM_VERSION} \
                     --slave   /usr/local/bin/yaml-bench yaml-bench /usr/bin/yaml-bench-${LLVM_VERSION} \
                     --slave   /usr/local/bin/yaml2obj yaml2obj /usr/bin/yaml2obj-${LLVM_VERSION}
+
+[ -n "$GCC_PATH" ] || exit 0
+
+gcc_lib_dir=
+for libdir in lib64 lib; do
+  gcc_lib_dir=$(ls -d "${GCC_PATH}/${libdir}"/gcc/*/*/crtbegin.o 2>/dev/null | sort -V | tail -1 || true)
+  [ -n "$gcc_lib_dir" ] && break
+done
+[ -n "$gcc_lib_dir" ] || exit 0
+
+echo "--gcc-install-dir=${gcc_lib_dir%/crtbegin.o}" > "/usr/lib/llvm-${LLVM_VERSION}/bin/gcc-install-dir.cfg"
+ln -s gcc-install-dir.cfg "/usr/lib/llvm-${LLVM_VERSION}/bin/clang.cfg"
+ln -s gcc-install-dir.cfg "/usr/lib/llvm-${LLVM_VERSION}/bin/clang++.cfg"
+ln -s gcc-install-dir.cfg "/usr/lib/llvm-${LLVM_VERSION}/bin/clang-cpp.cfg"
