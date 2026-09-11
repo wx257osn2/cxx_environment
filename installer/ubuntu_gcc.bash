@@ -2,11 +2,12 @@
 
 set -euo pipefail
 
-GCC_VERSION=${1}
+UBUNTU_VERSION=${1}
+GCC_VERSION=${2}
 GCC_MAJOR_VERSION=${GCC_VERSION%%.*}
 
 mkdir -p /opt
-curl -sSL https://github.com/wx257osn2/build-archive/releases/download/gcc-${GCC_VERSION}/ubuntu2404-$(uname -m).tar.zst | tar -C /opt -Ipzstd -xf -
+curl -sSL https://github.com/wx257osn2/build-archive/releases/download/gcc-${GCC_VERSION}/ubuntu${UBUNTU_VERSION}-$(uname -m).tar.zst | tar -C /opt -Ipzstd -xf -
 find /opt/gcc-${GCC_VERSION} -type d -exec chmod 755 {} +
 update-alternatives --install /usr/local/bin/gcc        gcc        /opt/gcc-${GCC_VERSION}/bin/gcc-${GCC_MAJOR_VERSION} ${GCC_MAJOR_VERSION} \
                     --slave   /usr/local/bin/g++        g++        /opt/gcc-${GCC_VERSION}/bin/g++-${GCC_MAJOR_VERSION} \
