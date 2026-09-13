@@ -29,13 +29,13 @@ uri=${2:-"oras://ghcr.io/wx257osn2/cxx_environment:{}"}
 if [ -f ${here}/cxx-${arch}.sif ]; then
   yasuno "${here}/cxx-${arch}.sif already exists. overwrite?"
   ret=$?
-  if [ $? -eq 1 ]; then
+  if [ $ret -eq 1 ]; then
     exit $ret
   fi
 fi
 
 if [[ ${uri} == oras://* ]]; then
-  ${SINGULARITY} pull $(echo ${uri} | sed "s/{}/${1}/g")-${arch}
+  ${SINGULARITY} pull $(echo ${uri} | sed "s/{}/${version}/g")-${arch}
   filename=$(echo ${uri##*/} | sed "s/:{}/_${version}-${arch}/g").sif
   if [ ${filename} != "cxx-${arch}.sif" ]; then
     mv ${filename} ${here}/cxx-${arch}.sif
