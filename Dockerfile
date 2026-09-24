@@ -18,7 +18,6 @@ ENV PIPX_HOME=/opt/pipx \
 
 FROM base AS builder
 
-ARG UBUNTU_VERSION=2604
 ARG GCC_VERSION
 ARG BOOST_VERSION
 ARG CMAKE_VERSION
@@ -32,10 +31,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
     --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu${UBUNTU_VERSION}_prelude.bash
+    /installer/ubuntu$(bash -c 'source /etc/os-release; echo ${VERSION_ID//./}')_prelude.bash
 
 RUN --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu_gcc.bash ${UBUNTU_VERSION} ${GCC_VERSION}
+    /installer/ubuntu_gcc.bash ${GCC_VERSION}
 
 RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,sharing=locked \
     --mount=type=cache,id=cxx_environment-apt-cache,target=/var/cache/apt/gc,sharing=locked \
@@ -62,7 +61,7 @@ RUN --mount=type=cache,id=cxx_environment-apt-lists,target=/var/lib/apt/gc,shari
     /installer/ubuntu2404_msvc-wine_prerequisites.bash
 
 RUN --mount=type=bind,src=installer,target=/installer \
-    /installer/ubuntu_boost.bash ${UBUNTU_VERSION} ${BOOST_VERSION} gcc-${GCC_VERSION}
+    /installer/ubuntu_boost.bash ${BOOST_VERSION} gcc-${GCC_VERSION}
 
 RUN --mount=type=bind,src=installer,target=/installer \
     /installer/cmake.bash ${CMAKE_VERSION}
