@@ -175,6 +175,7 @@ jobs:
       with:
         name: sif-${{ matrix.arch }}
         path: ./cxx-${{ matrix.arch }}.sif
+        retention-days: 1
   push:
     strategy:
       matrix:
