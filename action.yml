@@ -42,7 +42,7 @@ runs:
       with:
         path: /mnt/cxx_environment
         key: cxx_environment-${{ inputs.version }}-${{ env.cxx_env_arch }}
-    - uses: wx257osn2/setup-apptainer@v1.5.2
+    - uses: wx257osn2/setup-apptainer@v1.5.5
     - shell: bash
       run: |
         if [[ ${{ inputs.url_format }} == oras://* ]]; then
@@ -52,7 +52,7 @@ runs:
         fi
     - shell: bash
       run: |
-        version=v3.5.3
+        version=v3.5.4
         sudo mkdir -p /mnt/cxx_environment/post_installer
         sudo chown -R $(id -u):$(id -g) /mnt/cxx_environment
         pushd /mnt/cxx_environment
