@@ -12,7 +12,7 @@ You can use `cxx-env-run` after `uses: wx257osn2/cxx_environment@v3` .
 runs:
   - uses: wx257osn2/cxx_environment@v3
     with:
-      version: v20260911    # specify image version
+      version: v20261108    # specify image version
   - run: cxx-env-run g++ --version
 ```
 
@@ -49,10 +49,11 @@ $ ./pull.bash
 
 ```console
 $ ./run clang++ --version
-Ubuntu clang version 22.1.8 (++20260613092110+e80beda6e255-1~exp1~20260613092127.15)
+Ubuntu clang version 23.1.6 (++20261103094334+2875c6073a7e-1~exp1~20261103214345.93)
 Target: x86_64-pc-linux-gnu
 Thread model: posix
-InstalledDir: /usr/lib/llvm-22/bin
+InstalledDir: /usr/lib/llvm-23/bin
+Configuration file: /usr/lib/llvm-23/bin/clang++.cfg
 ```
 
 #### Shell
